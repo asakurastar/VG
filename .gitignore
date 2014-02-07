@@ -1,6 +1,7 @@
 .htaccess
 wp-content/uploads/
-wp-content/themes/twenty*/
+wp-content/themes/twentythirteen/
+wp-content/themes/twentytwelve/
 nbproject/
 license.txt
 readme.html
