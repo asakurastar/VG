@@ -32,7 +32,6 @@ function register_post_type_cursos() {
 	$args = array(
 		'labels'              => $labels,
 		'supports'            => array( 'title', 'editor', 'thumbnail' ),
-		'taxonomies'          => array( 'category' ),
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -50,6 +49,43 @@ function register_post_type_cursos() {
 }
 add_action( 'init', 'register_post_type_cursos', 0 );
 
+// Registra post type para polos
+function register_post_type_polos() {
+	$labels = array(
+		'name'                => 'Polos',
+		'singular_name'       => 'Polo',
+		'menu_name'           => 'Polos',
+		'parent_item_colon'   => '',
+		'all_items'           => 'Todos os polos',
+		'view_item'           => 'Visualizar polo',
+		'add_new_item'        => 'Adicionar novo polo',
+		'add_new'             => 'Adicionar novo',
+		'edit_item'           => 'Editar polo',
+		'update_item'         => 'Atualizar polo',
+		'search_items'        => 'Pesquisar polos',
+		'not_found'           => 'Nenhum polo foi encontrado',
+		'not_found_in_trash'  => 'Nenhum polo foi encontrado na lixeira'
+	);
+	$args = array(
+		'labels'              => $labels,
+		'supports'            => array( 'title' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'page'
+	);
+	register_post_type( 'polos', $args );
+}
+add_action( 'init', 'register_post_type_polos', 0 );
+
 // Adiciona filtro de consulta por post_title LIKE
 function post_filter_where( $where, &$wp_query ) {
 	global $wpdb;
@@ -64,24 +100,42 @@ add_filter( 'posts_where', 'post_filter_where', 10, 2 );
 
 // Ajax para buscar cursos pesquisados
 function ajax_cursos() {
+	global $wpdb;
+
 	header("Content-type: application/x-javascript");
 
 	if ( isset($_GET['search']) && !empty($_GET['search']) ) {
 		$search = trim( $_GET['search'] );
 		$data   = array();
 
-		$categories = get_all_category_ids();
+		$results = $wpdb->get_results("
+			SELECT DISTINCT (meta_value)
+			FROM wp_postmeta
+			WHERE meta_key = 'nivel_portal'
+		");
+		if ( is_array($results) && count($results) > 0 ) {
+			foreach($results as $result) {
+				$category     = $result;
+				$categories[] = $result->meta_value;
+			}
+		}
+
 		foreach( $categories as $category ) {
-			$data[ get_cat_name( $category ) ] = array();
+			$data[ $category ] = array();
 
 			$args = array(
 				'post_type'       => 'cursos',
 				'posts_per_page'  => -1,
-				'cat'             => $category,
 				'post_title_like' => $search,
 				'post_status'     => 'publish',
 				'orderby'         => 'title', 
-				'order'           => 'ASC'
+				'order'           => 'ASC',
+				'meta_query'      => array(
+					array(
+						'key'   => 'nivel_portal',
+						'value' => $category
+					)
+				)
 			);
 
 			add_filter( 'posts_where', 'post_filter_where', 10, 2 );
@@ -90,7 +144,7 @@ function ajax_cursos() {
 
 			if ( isset($query->posts) && count($query->posts) > 0 ) {
 				foreach( $query->posts as $post ) {
-					array_push( $data[ get_cat_name( $category ) ], array(
+					array_push( $data[ $category ], array(
 						'id'        => $post->ID,
 						'name'      => $post->post_name,
 						'title'     => $post->post_title,
@@ -100,7 +154,7 @@ function ajax_cursos() {
 			}
 		}
 
-		die( json_encode( $data ) );
+		die( json_encode( $data ) );*/
 	}
 
 	die('0');
@@ -330,3 +384,28 @@ function export_bulk_admin_footer() {
 	}
 }
 add_action( 'admin_footer-edit.php', 'export_bulk_admin_footer' );
+
+/**
+ * Importador de Polos (Desativado)
+ */
+function import_polos() {
+	$csv   = file_get_contents( dirname( dirname(__FILE__) ) . '\Polos.csv' );
+	$lines = explode("\n", $csv);
+
+	if ( count($lines) > 0 ) {
+		foreach( $lines as $line ) {
+			$fields = explode(";", $line );
+			$title  = utf8_encode( $fields[1] );
+			$codigo = $fields[0];
+
+			if ( $id = wp_insert_post( array( 
+				"post_title"  => $title,
+				"post_type"   => "polos", 
+				"post_status" => "publish" 
+			) ) ) {
+				update_post_meta( $id, 'codigo', $codigo );
+			}
+		}
+	}
+}
+//add_action( 'admin_footer-edit.php', 'import_polos' );
