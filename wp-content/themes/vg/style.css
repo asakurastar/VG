@@ -101,7 +101,12 @@ body { font-family: "Arial"; font-size: 14px; color: #808080; }
 .btn-secundary { font-family: museo500; font-size: 18px; color: #ef6910; text-transform: uppercase; padding: 20px; border-radius: 4px; border: 1px solid #ef6910; }
 
 .btn { font-family: museo500; font-size: 18px; color: #fff; text-transform: uppercase; padding: 20px 20px 18px 20px; background:#ef6910;  border-radius: 4px; border: 1px solid #ef6910; border-bottom: 3px solid #cb5b10; }
-.btn:hover { font-family: museo500; font-size: 18px; color: #fff; text-transform: uppercase; padding: 20px; background:#cb5b10;  border-radius: 4px; border: 1px solid #cb5b10; }
+.btn:hover { color: #fff; background:#cb5b10; border-color: #cb5b10; }
+
+.btn-secundary_small { font-family: museo500; font-size: 16px; color: #ef6910; text-transform: uppercase; padding: 15px 10px; border-radius: 4px; border: 1px solid #ef6910; }
+
+.btn_small { font-family: museo500; font-size: 16px; color: #fff; text-transform: uppercase; padding: 15px 10px 13px 10px; background:#ef6910;  border-radius: 4px; border: 1px solid #ef6910; border-bottom: 3px solid #cb5b10; }
+.btn_small:hover { color: #fff; background:#cb5b10; border-color: #cb5b10; }
 
 .block { width: 100%; clear: both; display: block; }
 
@@ -686,3 +691,361 @@ footer ul li .blog {
 	text-indent: -99999px;
 	background: url(img/ico_blog.png) no-repeat;
 }
+
+
+
+/******************************************************************
+* FANCYBOX: DETALHE DO CURSO
+/*****************************************************************/
+
+#detalhecurso .header {
+	padding: 35px;
+	display: block;
+	clear: both;
+	background: #f5f5f5;
+	border-radius: 10px 10px 0 0;
+}
+
+#detalhecurso .header h2 {
+	width: 55%;
+	float: left;
+	font-family: museo300;
+	font-size: 35px;
+	color: #011369;
+}
+
+#detalhecurso .header ul {
+	padding: 30px 0 0 0;
+	overflow: hidden;
+	clear: both;
+	display: block;
+}
+
+#detalhecurso .header ul li {
+	width: 50%;
+	min-height: 65px;
+	display: inline-block;
+	float: left;
+	margin: 0 0 10px 0;
+	padding: 0 0 0 70px;
+	font-family: sitka;
+	color: #767676;
+	font-size: 17px;
+}
+
+#detalhecurso .header ul li strong {
+	font-family: museo500;
+	font-size: 20px;
+	font-weight: 300;
+	color: #007dbf;
+	display: block;
+}
+
+#detalhecurso .header ul li.modalidade { background: url(img/ico_modalidade.png) no-repeat; }
+
+#detalhecurso .header ul li.area { background: url(img/ico_area.png) no-repeat; }
+
+#detalhecurso .header ul li.titulacao { background: url(img/ico_titulacao.png) no-repeat; }
+
+#detalhecurso .header ul li.duracao { background: url(img/ico_duracao.png) no-repeat; }
+
+#detalhecurso .header ul li.investimento { background: url(img/ico_investimento.png) no-repeat; }
+
+#detalhecurso .introduction {
+	padding: 35px 35px 10px 35px;
+	display: block;
+	clear: both;
+	overflow: hidden;
+	background: #fff;
+}
+
+#detalhecurso .introduction h3 {
+	font-family: museo100;
+	font-size: 20px;
+	color: #007dbf;
+	margin: 0 0 25px 0;
+}
+
+#detalhecurso .introduction p {
+	font-family: sitka;
+	font-size: 18px;
+	line-height: 24px;
+	color: #767676;
+	margin: 0 0 25px 0;
+}
+
+#detalhecurso #tabs {
+	padding: 10px 35px 35px 35px;
+	display: block;
+	clear: both;
+	overflow: hidden;
+	background: #fff;
+	border-radius: 0 0 10px 10px;
+}
+
+#detalhecurso #tabs ul {
+	width: 100%;
+	display: block;
+	clear: both;
+}
+
+#detalhecurso #tabs ul li {
+	display: inline-block;
+	float: left;
+	padding: 15px;
+}
+
+#detalhecurso #tabs ul li.ui-state-active {
+	border-radius: 10px 10px 0 0;
+	border:1px solid #011369;
+	border-bottom: 1px solid #fff;
+}
+
+#detalhecurso #tabs ul li.ui-state-active a { color: #011369 }
+
+#detalhecurso #tabs ul li a {
+	font-family: museo100;
+	font-size: 20px;
+	color: #007dbf;
+}
+
+#detalhecurso #tabs div {
+	padding: 20px 15px;
+	margin: -1px 0 0 0;
+	font-family: sitka;
+	font-size: 18px;
+	color: #767676;
+	border-radius: 0 0 10px 10px;
+	border: 1px solid #011369;
+}
+
+#detalhecurso #tabs div p { margin: 0 0 25px 0 }
+
+
+
+/******************************************************************
+* FANCYBOX: FORMULÁRIO DE INSCRIÇÃO
+/*****************************************************************/
+
+#inscricao .header {
+	padding: 35px;
+	display: block;
+	clear: both;
+	background: #f5f5f5;
+	border-radius: 10px 10px 0 0;
+}
+
+#inscricao .header h2 {
+	font-family: museo300;
+	font-size: 35px;
+	color: #011369;
+}
+
+#inscricao .header p {
+	font-family: sitka;
+	font-size: 18px;
+	color: #767676;
+	margin: 20px 0 0 0;
+}
+
+#inscricao fieldset {
+	padding: 35px;
+	border-radius: 0 0 10px 10px;
+	display: block;
+	clear: both;
+	overflow: hidden;
+	background: #fff;
+}
+
+#inscricao fieldset h3 {
+	font-family: museo100;
+	font-size: 20px;
+	color: #007dbf;
+	margin: 0 0 20px 0;
+}
+
+#inscricao fieldset label {
+	font-family: sitka;
+	font-size: 17px;
+	color: #767676;
+	display: block;
+	padding: 0 0 5px 0;
+}
+
+#inscricao fieldset input[type="text"] {
+	width: 87%;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 3px #ddd;
+	padding: 7px 10px;
+	font-family: sitka;
+	font-weight: 100;
+	font-size: 16px;
+	color: #a2a2a2;
+}
+
+#inscricao fieldset input[type="text"]:focus {
+	border-color: #007dbf;
+}
+
+#inscricao fieldset select {
+	width: 87%;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 3px #ddd;
+	padding: 7px 10px;
+	font-family: sitka;
+	font-weight: 100;
+	font-size: 16px;
+	color: #a2a2a2;
+}
+
+#inscricao fieldset select:focus {
+	border-color: #007dbf;
+}
+
+#inscricao fieldset .col-2 {
+	width: 48%;
+	display: inline-block;
+	margin: 0 0 20px 0;
+}
+
+#inscricao fieldset .col-4 {
+	width: 22%;
+	display: inline-block;
+	margin: 0 0 20px 0;
+}
+
+#inscricao fieldset .space { margin-right: 25px; }
+
+#inscricao fieldset .block-form {
+	display: block;
+	clear: both;
+	margin: 0 0 30px 0;
+}
+
+#inscricao fieldset input[type="submit"] { font-family: museo500; font-size: 16px; color: #fff; text-transform: uppercase; cursor: pointer; padding: 15px 10px 13px 10px; background:#ef6910;  border-radius: 4px; border: 1px solid #ef6910; border-bottom: 3px solid #cb5b10; }
+#inscricao fieldset input[type="submit"]:hover { color: #fff; background:#cb5b10; border-color: #cb5b10; }
+
+#inscricao .message {
+	margin: 0 20px;
+}
+
+#inscricao .message.error {
+	background-color: #ff0000;
+	border: 1px solid #880000;
+}
+#inscricao .message.success {
+	background-color: #00ff00;
+	border: 1px solid #008800;
+}
+#inscricao .message p {
+	margin: 5px;
+	padding: 0px;
+	color: #ffffff;
+}
+
+/******************************************************************
+* FANCYBOX: TENHO INTERESSE
+/*****************************************************************/
+
+#interesse .header {
+	padding: 35px;
+	display: block;
+	clear: both;
+	background: #f5f5f5;
+	border-radius: 10px 10px 0 0;
+}
+
+#interesse .header h2 {
+	font-family: museo300;
+	font-size: 35px;
+	color: #011369;
+}
+
+#interesse .header p {
+	font-family: sitka;
+	font-size: 18px;
+	color: #767676;
+	margin: 20px 0 0 0;
+}
+
+#interesse fieldset {
+	padding: 35px;
+	border-radius: 0 0 10px 10px;
+	display: block;
+	clear: both;
+	overflow: hidden;
+	background: #fff;
+}
+
+#interesse fieldset h3 {
+	font-family: museo100;
+	font-size: 20px;
+	color: #007dbf;
+	margin: 0 0 20px 0;
+}
+
+#interesse fieldset label {
+	font-family: sitka;
+	font-size: 17px;
+	color: #767676;
+	display: block;
+	padding: 0 0 5px 0;
+}
+
+#interesse fieldset input[type="text"] {
+	width: 87%;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 3px #ddd;
+	padding: 7px 10px;
+	font-family: sitka;
+	font-weight: 100;
+	font-size: 16px;
+	color: #a2a2a2;
+}
+
+#interesse fieldset input[type="text"]:focus {
+	border-color: #007dbf;
+}
+
+#interesse fieldset select {
+	width: 87%;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 3px #ddd;
+	padding: 7px 10px;
+	font-family: sitka;
+	font-weight: 100;
+	font-size: 16px;
+	color: #a2a2a2;
+}
+
+#interesse fieldset select:focus {
+	border-color: #007dbf;
+}
+
+#interesse fieldset .col-2 {
+	width: 48%;
+	display: inline-block;
+	margin: 0 0 20px 0;
+}
+
+#interesse fieldset .col-4 {
+	width: 22%;
+	display: inline-block;
+	margin: 0 0 20px 0;
+}
+
+#interesse fieldset .space { margin-right: 25px; }
+
+#interesse fieldset .block-form {
+	display: block;
+	clear: both;
+	margin: 0 0 30px 0;
+}
+
+#interesse fieldset input[type="submit"] { font-family: museo500; font-size: 16px; color: #fff; text-transform: uppercase; cursor: pointer; padding: 15px 10px 13px 10px; background:#ef6910;  border-radius: 4px; border: 1px solid #ef6910; border-bottom: 3px solid #cb5b10; }
+#interesse fieldset input[type="submit"]:hover { color: #fff; background:#cb5b10; border-color: #cb5b10; }
+

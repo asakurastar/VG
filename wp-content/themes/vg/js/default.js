@@ -1,11 +1,11 @@
 $(function() {
-	var $search    = $('#search');
-	var $submit    = $('#submit');
-	var $accordion = $('#accordion');
+	var $search = $('#search');
+	var $submit = $('#submit');
 
 	// Search
 	$search
 	.data( 'title', $search.attr('title') )
+	.val( $search.data('title') )
 	.on('focus', function() {
 		if ( $(this).val() == $(this).data('title') ) {
 			$(this).val('');
@@ -21,41 +21,105 @@ $(function() {
 		e.preventDefault();
 		search( $search.val() );
 	})
-
-	function search( value ) {
-		$.get('wp-admin/admin-ajax.php', { action : 'cursos', search : value }, function(data) {
-			if ( data ) {
-				var $html = '';
-
-				$('.block.cursos .limit').find('#accordion').remove();
-
-				$accordion.find('*').remove();
-				$.each( data, function( k, v ) {
-					$html += '<h3>' + k + '</h3><div>';
-					if ( typeof(v) == "object" ) {
-						$html += '<ul>';
-						$.each(v, function( kk, vv ) {
-							$html += '<li><a href="#">' + vv.title + ' <span>[' + vv.titulacao + ']</span></a></li>';
-						});
-						$html += '</ul>';
-					}
-					$html += '</div>';
-				});
-
-				$('.block.cursos .limit').append( $('<div id="accordion" />').append( $html ) );
-				$('#accordion').accordion();
-			}
-		},'json');
-	}
 	search('all');
 
 	// Navigation
-	$('nav a').on('click', function(e) {
+	$('a.nav').on('click', function(e) {
 		e.preventDefault();
+
 		var $target = $( $(this).attr('href') );
-		var top = $target.offset().top;
-		$('html, body').animate({
-			'scrollTop' : top
-		}, 'slow');
-	})
+		var top     = $target.offset().top;
+		$('html, body').animate({ 'scrollTop' : top }, 'slow');
+	});
+
+	// Fancybox Inscricao
+	$('.fancybox-inscricao').fancybox();
+
+	// Mask
+	$('.telefone').mask('(99) 9999-9999');
+	$('.cep').mask('99.999-999');
+	$('.data').mask('99/99/9999');
+	$('.cpf').mask('999.999.999-99');
 });
+
+function search( value ) {
+	var selector   = '#accordion';
+	var $accordion = $( selector );
+	$.get('wp-admin/admin-ajax.php', { action : 'cursos', search : value }, function(data) {
+		if ( data ) {
+			var $html = '';
+
+			$('.block.cursos .limit').find( selector ).remove();
+
+			$accordion.find('*').remove();
+			$.each( data, function( k, v ) {
+				$html += '<h3>' + k + '</h3><div>';
+				if ( typeof(v) == "object" ) {
+					$html += '<ul>';
+					$.each(v, function( kk, vv ) {
+						$html += '<li><a href="javascript:void(0);" onclick="loadCurso(' + vv.id + ');">' + vv.title + ' <span>[' + vv.titulacao + ']</span></a></li>';
+					});
+					$html += '</ul>';
+				}
+				$html += '</div>';
+			});
+
+			$('.block.cursos .limit').append( $('<div id="accordion" />').append( $html ) );
+			$('#accordion').accordion();
+		}
+	},'json');
+}
+
+function loadCurso( id ) {
+	$.get('wp-admin/admin-ajax.php', { action : 'curso', id : id }, function(data) {
+		var selector      = '#detalhecurso';
+		var curso         = 0;
+		var $detalhes     = $( selector );
+		var $titulo       = $( 'h2',            $detalhes ).text('');
+		var $modalidade   = $( '.modalidade',   $detalhes ).html('');
+		var $titulacao    = $( '.titulacao',    $detalhes ).html('');
+		var $area         = $( '.area',         $detalhes ).html('');
+		var $duracao      = $( '.duracao',      $detalhes ).html('');
+		var $investimento = $( '.investimento', $detalhes ).html('');
+		var $introducao   = $( '.introduction', $detalhes ).html('');
+		var $perfil       = $( '#tabs-1',       $detalhes ).html('');
+		var $objetivos    = $( '#tabs-2',       $detalhes ).html('');
+		var $coordenacao  = $( '#tabs-3',       $detalhes ).html('');
+		var $inscricao;
+		
+		if ( data ) { 
+			$titulo.text( data.post_title );
+			$modalidade.html( '<strong>Modalidade</strong>' + data.modalidade );
+			$titulacao.html( '<strong>Titulação</strong>' + data.nivel );
+			$area.html( '<strong>Área</strong>' + data.area_de_formacao );
+			$duracao.html( '<strong>Duração</strong>' + data.duracao );
+			$investimento.html( '<strong>Investimento</strong>' + data.investimento );
+			$introducao.html( data.post_content );
+			$perfil.html( data.perfil_do_profissional || 'Não disponível' );
+			$objetivos.html( data.objetivos_e_dados_legais || 'Não disponível' );
+			$coordenacao.html( data.coordenacao || 'Não disponível' );
+			$detalhes.html( $detalhes.html().replace(/undefined/g, 'Informação não disponível') );
+			$inscricao = $( 'a.inscricao', $detalhes );
+			$.fancybox.open('.fancybox', { 
+				href : selector,
+				afterShow : function() {
+					$('#tabs').tabs({ active : 0 });
+				}
+			});
+
+			$inscricao.on('click', function(e) {
+				e.preventDefault();
+				
+				curso = data.ID;
+				$.fancybox.close('.fancybox');
+				$.fancybox.open('.fancybox-inscricao', { 
+					href : '#inscricao',
+					afterShow : function() {
+						$('#curso').val( curso );
+					}
+				});
+			});
+		}
+
+	}, 'json');
+}

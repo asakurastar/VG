@@ -1,5 +1,6 @@
 .htaccess
 wp-content/uploads/
+wp-content/themes/twentyfourteen/
 wp-content/themes/twentythirteen/
 wp-content/themes/twentytwelve/
 nbproject/

@@ -164,6 +164,31 @@ function ajax_cursos() {
 }
 add_action( 'wp_ajax_cursos', 'ajax_cursos' );
 
+// Ajax para carregar todas as informações de um determinado curso
+function ajax_load_curso() {
+	header("Content-type: application/x-javascript");
+
+	if ( isset($_GET['id']) && !empty($_GET['id']) ) {
+		$post               = get_post( $_GET['id'] );
+		$post->post_content = apply_filters( 'the_content', $post->post_content );
+
+		if ( $post ) {
+			if ( $fields = get_fields( $post->ID ) ) {
+				if ( is_array($fields) && count($fields) > 0 ) {
+					foreach( $fields as $key => $value ) {
+						$post->{$key} = $value;
+					}
+				}
+			}
+		}
+
+		die( json_encode( $post ) );
+	}
+
+	die('0');
+}
+add_action( 'wp_ajax_curso', 'ajax_load_curso' );
+
 /*
  *************************************************************************************************
  * Controle de inscrições
@@ -248,25 +273,35 @@ function save_inscricao() {
 	// Expõe $messages para ser usado em qualquer lugar
 	global $messages;
 
-	// Campos obrigatórios ( Campo => nome ou array( nome, máscara, mensagem de erro ) )
+	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
-		'post_title'         => 'Nome completo',
+		'nome'               => 'Nome completo',
 		'rg'                 => 'RG',
+		'uf'                 => 'UF',
+		'orgao'              => 'Órgão emissor',
 		'cpf'                => array(
 			'name'  => 'CPF',
 			'mask'  => '/^((\d){3}\.){2}(\d){3}\-(\d){2}$/',
 			'error' => 'O campo %name% deve conter pontuação'
 		),
-		'orgao_emissor'      => 'Órgão emissor',
-		'data_de_nascimento' => array(
-			'name'  => 'Data de nascimento',
-			'mask'  => '/^((\d){2}\/){2}(\d){4}$/',
-			'error' => 'O campo %name% deve estar no formato dd/mm/aaaa'
+		'nascimento'         => array(
+			'name'   => 'Data de nascimento',
+			'mask'   => '/^((\d){2}\/){2}(\d){4}$/',
+			'error'  => 'O campo %name% deve estar no formato DD/MM/AAAA'
 		),
 		'sexo'               => 'Sexo',
+		'cep'                => array(
+			'name'  => 'CEP',
+			'mask'  => '/^(\d){2}\.(\d){3}\-(\d){3}$/',
+			'error' => 'O campo %name% deve estar no formato 00.000-000'
+		),
 		'endereco'           => 'Endereço',
-		'telefone_fixo'      => 'Telefone (Fixo)',
-		'telefone_celular'   => 'Telefone (Celular)',
+		'numero'             => 'Nº',
+ 		'complemento'        => 'Complemento',
+		'bairro'             => 'Bairro',
+		'cidade'             => 'Cidade',
+		'telefone-fixo'      => 'Telefone (Fixo)',
+		'telefone-celular'   => 'Telefone (Celular)',
 		'email'              => array(
 			'name'  => 'E-Mail',
 			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
@@ -296,10 +331,14 @@ function save_inscricao() {
 			}
 		}
 
+		if ( count($messages) > 0 && isset($_POST['curso']) ) {
+			$messages['id'] = $_POST['curso'];
+		}
+
 		if ( 0 == count($messages) ) {
 			if ( $id = wp_insert_post(array(
 				'post_type'   => 'inscricoes',
-				'post_title'  => $_POST['post_title'],
+				'post_title'  => $_POST['nome'],
 				'post_status' => 'publish'
 			)) ) {
 				unset($_POST['post_title']);
@@ -308,6 +347,13 @@ function save_inscricao() {
 				foreach( $_POST as $k => $v ) {
 					update_post_meta( $id, $k, $v );
 				}
+
+				unset($_POST);
+				?>
+				<script>
+					alert('Sua inscrição foi realizada com sucesso');
+				</script>
+				<?php
 			}
 		}
 	}
@@ -322,8 +368,21 @@ function export_inscricoes_toCSV() {
 
 		$csv    = '';
 		$fields = array(
-			'cpf', 'rg', 'orgao_emissor', 'data_de_nascimento', 
-			'sexo', 'endereco', 'telefone_fixo', 'telefone_celular', 'email'
+			'cpf', 
+			'rg', 
+			'orgao', 
+			'nascimento', 
+			'sexo', 
+			'endereco', 
+			'numero', 
+			'complemento', 
+			'bairro', 
+			'cidade', 
+			'uf', 
+			'cep', 
+			'telefone-fixo', 
+			'telefone-celular', 
+			'email'
 		);
 
 		$posts = get_posts(array(
@@ -387,28 +446,3 @@ function export_bulk_admin_footer() {
 	}
 }
 add_action( 'admin_footer-edit.php', 'export_bulk_admin_footer' );
-
-/**
- * Importador de Polos (Desativado)
- */
-function import_polos() {
-	$csv   = file_get_contents( dirname( dirname(__FILE__) ) . '\Polos.csv' );
-	$lines = explode("\n", $csv);
-
-	if ( count($lines) > 0 ) {
-		foreach( $lines as $line ) {
-			$fields = explode(";", $line );
-			$title  = utf8_encode( $fields[1] );
-			$codigo = $fields[0];
-
-			if ( $id = wp_insert_post( array( 
-				"post_title"  => $title,
-				"post_type"   => "polos", 
-				"post_status" => "publish" 
-			) ) ) {
-				update_post_meta( $id, 'codigo', $codigo );
-			}
-		}
-	}
-}
-//add_action( 'admin_footer-edit.php', 'import_polos' );
