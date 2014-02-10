@@ -123,7 +123,7 @@ function loadCurso( id ) {
 				$.fancybox.open('.fancybox-inscricao', { 
 					href : '#inscricao',
 					afterShow : function() {
-						$('#curso').val( curso );
+						$( '[name=curso]', '#inscricao' ).val( curso );
 					}
 				});
 			});
@@ -132,9 +132,15 @@ function loadCurso( id ) {
 			$interesse.on('click', function(e) {
 				e.preventDefault();
 				
+				curso = data.ID;
 				$.fancybox.close('.fancybox');
 				$.fancybox.close('.fancybox-inscricao');
-				$.fancybox.open('.fancybox-interesse', { href : '#interesse' });
+				$.fancybox.open('.fancybox-interesse', { 
+					href : '#interesse',
+					afterShow : function() {
+						$( '[name=curso]', '#interesse' ).val( curso );
+					}
+				});
 			});
 
 		}

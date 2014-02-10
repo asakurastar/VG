@@ -438,6 +438,12 @@ function save_interesse() {
 			}
 		}
 
+		if ( count($messagesInteresse) > 0 ) {
+			if ( isset($_POST['curso']) ) {
+				$messagesInteresse['id'] = $_POST['curso'];
+			}
+		}
+
 		if ( 0 == count($messagesInteresse) ) {
 			if ( $id = wp_insert_post(array(
 				'post_type'   => 'interesses',

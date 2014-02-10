@@ -61,7 +61,10 @@
 		</script>
 		<?php endif; ?>
 
-		<?php if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
+		<?php 
+		if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : 
+			$curso = isset( $messagesInteresse['id'] ) ? $messagesInteresse['id'] : 0;
+		?>
 		<script>
 			$(function() {
 				$.fancybox.open('.fancybox-interesse', { href : '#interesse' });
@@ -195,7 +198,7 @@
 					</div>
 
 					<?php if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
-
+					<?php unset( $messagesInteresse['id'] ); ?>
 					<!-- Erros -->
 					<div class="message error">
 						<?php foreach($messagesInteresse as $message) : ?>
@@ -226,6 +229,21 @@
 								<div class="col-2">
 									<label for="email">E-mail:</label>
 									<input id="email" name="email" type="text" />
+								</div>
+								<div class="col-2">
+									<label>Nome do curso:</label>
+									<select id="curso" name="curso">
+										<?php
+										$cursos = get_posts(array(
+											'post_type'      => 'cursos',
+											'post_status'    => 'publish',
+											'posts_per_page' => -1
+										));
+										foreach($cursos as $curso) :
+										?>
+										<option value="<?php echo $curso->ID; ?>"><?php echo $curso->post_title; ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 							<input type="submit" id="submit" value="ENVIAR" />
@@ -358,7 +376,6 @@
 										<?php endforeach; ?>
 									</select>
 								</div>
-								<!-- col-2 -->
 
 								<div class="col-2">
 									<label>Polo / Local de provas:</label>
