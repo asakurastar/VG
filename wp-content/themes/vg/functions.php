@@ -499,13 +499,35 @@ function export_inscricoes_csv() {
 		));
 
 		if ( count($posts) > 0 ) {
+
+			// Cabeçalho do CSV
+			$csv .= '"CODIGO","NOME","CPF","RG","ORGAO EMISSOR","DATA DE NASCIMENTO","SEXO","ENDERECO","NUMERO","COMPLEMENTO","BAIRRO","CIDADE","UF","CEP","TELEFONE FIXO","TELEFONE CELULAR","EMAIL","CURSO CODIGO","CURSO","POLO CODIGO","POLO"';
+			$csv .= "\n";
+
+			// Gera os dados na estrutura de CSV
 			foreach( $posts as $post ) {
 				$id   = $post->ID;
-				$csv .= $id . ',"' . $post->post_title . '"';
+				$csv .= $id . ',"' . utf8_decode( $post->post_title ) . '"';
 
 				foreach( $fields as $field ) {
 					$value = get_field( $field, $id );
-					$csv .= ',"'. $value .'"';
+					$csv .= ',"'. utf8_decode( $value ) .'"';
+				}
+
+				if ( $cursoID = get_field( 'curso', $id ) ) {
+					$curso = get_post( $cursoID );
+					$csv .= ',"' . get_field( 'codigo', $curso->ID ) . '"';
+					$csv .= ',"' . utf8_decode( $curso->post_title ) . '"';
+				} else {
+					$csv .= ',"",""';
+				}
+
+				if ( $poloID = get_field( 'polo', $id ) ) {
+					$polo = get_post( $poloID );
+					$csv .= ',"' . get_field( 'codigo', $polo->ID ) . '"';
+					$csv .= ',"' . utf8_decode( $polo->post_title ) . '"';
+				} else {
+					$csv .= ',"",""';
 				}
 
 				$csv .= "\n";
@@ -536,8 +558,8 @@ function export_bulk_admin_footer() {
 					var $csv     = $('<input type="button" />');
 
 					$csv
-						.attr({ 'class' : 'button action', 'value' : 'Exportar para CSV' });
-						.css('vertical-align', 'bottom');
+						.attr({ 'class' : 'button action', 'value' : 'Exportar para CSV' })
+						.css('vertical-align', 'bottom')
 						.on('click', function() {
 							$('#posts-filter')
 								.append( $('<input type="hidden" name="csv" value="1" />') )

@@ -30,11 +30,11 @@
 		<![endif]-->
 
 		<!--[if lt IE 7]>
-		<p class="chromeframe">Você está usando um browwer <strong>ultrapassado</strong>. Por favor <a href="http://browsehappy.com/">atualize o browser</a> ou <a href="http://www.google.com/chromeframe/?redirect=true">ative o Frame do Google Chrome</a> para melhorar a experiência.</p>
+		<p class="chromeframe">Você está usando um browser <strong>ultrapassado</strong>. Por favor <a href="http://browsehappy.com/">atualize o browser</a> ou <a href="http://www.google.com/chromeframe/?redirect=true">ative o Frame do Google Chrome</a> para melhorar a experiência.</p>
 		<![endif]-->
 
 		<!--[if lt IE 8]>
-		<p class="chromeframe">Você está usando um browwer <strong>ultrapassado</strong>. Por favor <a href="http://browsehappy.com/">atualize o browser</a> ou <a href="http://www.google.com/chromeframe/?redirect=true">ative o Frame do Google Chrome</a> para melhorar a experiência.</p>
+		<p class="chromeframe">Você está usando um browser <strong>ultrapassado</strong>. Por favor <a href="http://browsehappy.com/">atualize o browser</a> ou <a href="http://www.google.com/chromeframe/?redirect=true">ative o Frame do Google Chrome</a> para melhorar a experiência.</p>
 		<![endif]-->
 
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
