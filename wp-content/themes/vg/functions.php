@@ -191,7 +191,7 @@ add_action( 'wp_ajax_curso', 'ajax_load_curso' );
 
 /*
  *************************************************************************************************
- * Controle de inscrições
+ * Controle de inscrições / Interesses
  ************************************************************************************************
  */
 // Registra post type para inscrições
@@ -230,13 +230,51 @@ function register_post_type_inscricoes() {
 }
 add_action( 'init', 'register_post_type_inscricoes', 0 );
 
-// Remove visualmente a capacidade de criar ou editar inscrições pelo backend
-function remove_new_inscricao_menu() {
-	remove_submenu_page('edit.php?post_type=inscricoes', 'post-new.php?post_type=inscricoes');
+// Registra post type para interesses
+function register_post_type_interesses() {
+	$labels = array(
+		'name'                => 'Interesses',
+		'singular_name'       => 'Interesse',
+		'menu_name'           => 'Interesses',
+		'parent_item_colon'   => '',
+		'all_items'           => 'Todos os interesses',
+		'view_item'           => 'Visualizar interesse',
+		'add_new_item'        => 'Adicionar novo interesse',
+		'add_new'             => 'Adicionar novo',
+		'edit_item'           => 'Editar interesse',
+		'update_item'         => 'Atualizar interesse',
+		'search_items'        => 'Pesquisar interesses',
+		'not_found'           => 'Nenhum interesse foi encontrado',
+		'not_found_in_trash'  => 'Nenhum interesse foi encontrado na lixeira'
+	);
+	$args = array(
+		'labels'              => $labels,
+		'supports'            => array( 'title' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'page'
+	);
+	register_post_type( 'interesses', $args );
 }
-function remove_new_inscricao_button() {
+add_action( 'init', 'register_post_type_interesses', 0 );
+
+// Remove visualmente a capacidade de criar ou editar inscrições/interesses pelo backend
+function remove_new_inscricao_interesse_menu() {
+	remove_submenu_page('edit.php?post_type=inscricoes', 'post-new.php?post_type=inscricoes');
+	remove_submenu_page('edit.php?post_type=interesses', 'post-new.php?post_type=interesses');
+}
+function remove_new_inscricao_interesse_button() {
 	$screen = get_current_screen();
-	if ( isset($screen->post_type) && 'inscricoes' == $screen->post_type ) {
+	if ( isset($screen->post_type) && in_array( $screen->post_type, array('inscricoes', 'interesses') ) ) {
 ?>
 	<style>
 		.add-new-h2, 
@@ -253,9 +291,9 @@ function remove_new_inscricao_button() {
 <?php
 	}
 }
-function remove_quick_edit_inscricao( $actions ) {
+function remove_quick_edit_inscricao_interesse( $actions ) {
 	$screen = get_current_screen();
-	if ( isset($screen->post_type) && 'inscricoes' == $screen->post_type ) {
+	if ( isset($screen->post_type) && in_array( $screen->post_type, array('inscricoes', 'interesses') ) ) {
 		unset( $actions['inline hide-if-no-js'] );
 		unset( $actions['view'] );
 	}
@@ -263,15 +301,15 @@ function remove_quick_edit_inscricao( $actions ) {
 	return $actions;
 }
 
-add_filter( 'post_row_actions', 'remove_quick_edit_inscricao', 10, 2 );
-add_action( 'admin_menu',       'remove_new_inscricao_menu'          );
-add_action( 'admin_head',       'remove_new_inscricao_button'        );
+add_filter( 'post_row_actions', 'remove_quick_edit_inscricao_interesse', 10, 2 );
+add_action( 'admin_menu',       'remove_new_inscricao_interesse_menu'          );
+add_action( 'admin_head',       'remove_new_inscricao_interesse_button'        );
 
 // Captura e salva os dados do formulário de inscrição
 function save_inscricao() {
 
-	// Expõe $messages para ser usado em qualquer lugar
-	global $messages;
+	// Expõe $messagesInscricao para ser usado em qualquer lugar
+	global $messagesInscricao;
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
@@ -310,7 +348,7 @@ function save_inscricao() {
 	);
 
 	// Mensagens de erro, sucesso, etc
-	$messages = array();
+	$messagesInscricao = array();
 
 	if ( isset($_POST['inscricao']) ) {
 		array_map('sanitize_text_field', $_POST);
@@ -320,22 +358,24 @@ function save_inscricao() {
 			$error = "O campo {$name} deve ser preenchido e válido";
 
 			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
-				array_push( $messages,  $error );
+				array_push( $messagesInscricao,  $error );
 			}
 
 			elseif ( isset( $v['mask'] ) && !empty( $v['mask'] ) ) {
 				if ( !preg_match( $v['mask'], $_POST[ $k ] ) ) {
 					$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-					array_push( $messages,  $error );
+					array_push( $messagesInscricao,  $error );
 				}
 			}
 		}
 
-		if ( count($messages) > 0 && isset($_POST['curso']) ) {
-			$messages['id'] = $_POST['curso'];
+		if ( count($messagesInscricao) > 0 ) {
+			if ( isset($_POST['curso']) ) {
+				$messagesInscricao['id'] = $_POST['curso'];
+			}
 		}
 
-		if ( 0 == count($messages) ) {
+		if ( 0 == count($messagesInscricao) ) {
 			if ( $id = wp_insert_post(array(
 				'post_type'   => 'inscricoes',
 				'post_title'  => $_POST['nome'],
@@ -347,8 +387,6 @@ function save_inscricao() {
 				foreach( $_POST as $k => $v ) {
 					update_post_meta( $id, $k, $v );
 				}
-
-				unset($_POST);
 				?>
 				<script>
 					alert('Sua inscrição foi realizada com sucesso');
@@ -360,8 +398,71 @@ function save_inscricao() {
 }
 add_action( 'init', 'save_inscricao' );
 
+// Captura e salva os dados do formulário de interesse
+function save_interesse() {
+
+	// Expõe $messagesInteresse para ser usado em qualquer lugar
+	global $messagesInteresse;
+
+	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
+	$fields = array(
+		'nome'               => 'Nome completo',
+		'telefone-fixo'      => 'Telefone (Fixo)',
+		'telefone-celular'   => 'Telefone (Celular)',
+		'email'              => array(
+			'name'  => 'E-Mail',
+			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
+			'error' => 'O campo %name% não parece ser um endereço válido'
+		)
+	);
+
+	// Mensagens de erro, sucesso, etc
+	$messagesInteresse = array();
+
+	if ( isset($_POST['interesse']) ) {
+		array_map('sanitize_text_field', $_POST);
+
+		foreach( $fields as $k => $v ) {
+			$name  = is_array($v) ? $v['name'] : $v;
+			$error = "O campo {$name} deve ser preenchido e válido";
+
+			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
+				array_push( $messagesInteresse,  $error );
+			}
+
+			elseif ( isset( $v['mask'] ) && !empty( $v['mask'] ) ) {
+				if ( !preg_match( $v['mask'], $_POST[ $k ] ) ) {
+					$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
+					array_push( $messagesInteresse,  $error );
+				}
+			}
+		}
+
+		if ( 0 == count($messagesInteresse) ) {
+			if ( $id = wp_insert_post(array(
+				'post_type'   => 'interesses',
+				'post_title'  => $_POST['nome'],
+				'post_status' => 'publish'
+			)) ) {
+				unset($_POST['post_title']);
+				unset($_POST['interesse']);
+
+				foreach( $_POST as $k => $v ) {
+					update_post_meta( $id, $k, $v );
+				}
+				?>
+				<script>
+					alert('Seu interesse foi adicionado com sucesso');
+				</script>
+				<?php
+			}
+		}
+	}
+}
+add_action( 'init', 'save_interesse' );
+
 // Exporta todas as inscrições publicadas para CSV e realiza seu download
-function export_inscricoes_toCSV() {
+function export_inscricoes_csv() {
 
 	// Proteção para backend
 	if ( is_admin() && isset($_GET['csv']) ) {
@@ -417,8 +518,6 @@ function export_inscricoes_toCSV() {
 		}
 	}
 }
-add_action( 'init', 'export_inscricoes_toCSV' );
-
 function export_bulk_admin_footer() {
 	global $post_type;
 	
@@ -430,13 +529,14 @@ function export_bulk_admin_footer() {
 					var $actions = $('.bulkactions');
 					var $csv     = $('<input type="button" />');
 
-					$csv.attr({ 'class' : 'button action', 'value' : 'Exportar para CSV' });
-					$csv.css('vertical-align', 'bottom');
-					$csv.on('click', function() {
-						$('#posts-filter')
-							.append( $('<input type="hidden" name="csv" value="1" />') )
-							.trigger('submit');
-					});
+					$csv
+						.attr({ 'class' : 'button action', 'value' : 'Exportar para CSV' });
+						.css('vertical-align', 'bottom');
+						.on('click', function() {
+							$('#posts-filter')
+								.append( $('<input type="hidden" name="csv" value="1" />') )
+								.trigger('submit');
+						});
 
 					$actions.append($csv);
 				});
@@ -445,4 +545,5 @@ function export_bulk_admin_footer() {
 	<?php
 	}
 }
+add_action( 'init',                  'export_inscricoes_csv'    );
 add_action( 'admin_footer-edit.php', 'export_bulk_admin_footer' );

@@ -1049,3 +1049,21 @@ footer ul li .blog {
 #interesse fieldset input[type="submit"] { font-family: museo500; font-size: 16px; color: #fff; text-transform: uppercase; cursor: pointer; padding: 15px 10px 13px 10px; background:#ef6910;  border-radius: 4px; border: 1px solid #ef6910; border-bottom: 3px solid #cb5b10; }
 #interesse fieldset input[type="submit"]:hover { color: #fff; background:#cb5b10; border-color: #cb5b10; }
 
+#interesse .message {
+	margin: 0 20px;
+}
+
+#interesse .message.error {
+	background-color: #ff0000;
+	border: 1px solid #880000;
+}
+#interesse .message.success {
+	background-color: #00ff00;
+	border: 1px solid #008800;
+}
+#interesse .message p {
+	margin: 5px;
+	padding: 0px;
+	color: #ffffff;
+}
+

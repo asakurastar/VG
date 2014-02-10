@@ -59,13 +59,15 @@ function search( value ) {
 					$.each(v, function( kk, vv ) {
 						$html += '<li><a href="javascript:void(0);" onclick="loadCurso(' + vv.id + ');">' + vv.title + ' <span>[' + vv.titulacao + ']</span></a></li>';
 					});
-					$html += '</ul>';
+					$html += '</ul><div style="clear: both;"></div>';
 				}
 				$html += '</div>';
 			});
 
 			$('.block.cursos .limit').append( $('<div id="accordion" />').append( $html ) );
-			$('#accordion').accordion();
+			$('#accordion').accordion({
+				heightStyle : "content"
+			});
 		}
 	},'json');
 }
@@ -86,6 +88,7 @@ function loadCurso( id ) {
 		var $objetivos    = $( '#tabs-2',       $detalhes ).html('');
 		var $coordenacao  = $( '#tabs-3',       $detalhes ).html('');
 		var $inscricao;
+		var $interesse;
 		
 		if ( data ) { 
 			$titulo.text( data.post_title );
@@ -100,6 +103,9 @@ function loadCurso( id ) {
 			$coordenacao.html( data.coordenacao || 'Não disponível' );
 			$detalhes.html( $detalhes.html().replace(/undefined/g, 'Informação não disponível') );
 			$inscricao = $( 'a.inscricao', $detalhes );
+			$interesse = $( 'a.interesse', $detalhes );
+
+			// Tabs
 			$.fancybox.open('.fancybox', { 
 				href : selector,
 				afterShow : function() {
@@ -107,11 +113,13 @@ function loadCurso( id ) {
 				}
 			});
 
+			// Inscricao
 			$inscricao.on('click', function(e) {
 				e.preventDefault();
 				
 				curso = data.ID;
 				$.fancybox.close('.fancybox');
+				$.fancybox.close('.fancybox-interesse');
 				$.fancybox.open('.fancybox-inscricao', { 
 					href : '#inscricao',
 					afterShow : function() {
@@ -119,6 +127,16 @@ function loadCurso( id ) {
 					}
 				});
 			});
+
+			// Interesse
+			$interesse.on('click', function(e) {
+				e.preventDefault();
+				
+				$.fancybox.close('.fancybox');
+				$.fancybox.close('.fancybox-inscricao');
+				$.fancybox.open('.fancybox-interesse', { href : '#interesse' });
+			});
+
 		}
 
 	}, 'json');

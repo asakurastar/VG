@@ -45,18 +45,30 @@
 
 		<?php wp_head(); ?>
 
-		<?php if ( isset($messages) && is_array($messages) && count($messages) > 0 ) : $codigo = $messages['id'];?>
+		<?php 
+		if ( isset($messagesInscricao) && is_array($messagesInscricao) && count($messagesInscricao) > 0 ) :
+			$curso = isset( $messagesInscricao['id'] ) ? $messagesInscricao['id'] : 0;
+		?>
 		<script>
 			$(function() {
 				$.fancybox.open('.fancybox-inscricao', { 
 					href : '#inscricao',
 					afterShow : function() {
-						$('#curso').val( '<?php echo $codigo; ?>' );
+						$('#curso').val( '<?php echo $curso; ?>' );
 					}
 				});
 			});
 		</script>
 		<?php endif; ?>
+
+		<?php if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
+		<script>
+			$(function() {
+				$.fancybox.open('.fancybox-interesse', { href : '#interesse' });
+			});
+		</script>
+		<?php endif; ?>
+
 	</head>
 
 	<body <?php body_class(); ?>>
@@ -149,7 +161,7 @@
 				<div id="detalhecurso" style="width:780px; display:none;">
 					<div class="header">
 						<h2></h2>
-						<a href="javascript:void(0);" class="btn-secundary_small">Estou interessado</a>
+						<a href="#interesse" class="interesse btn-secundary_small">Estou interessado</a>
 						<a href="javascript:void(0);" class="inscricao btn_small">Inscreva-se</a>
 						<br class="clear" />
 						<ul>
@@ -175,6 +187,53 @@
 				</div>
 				<!-- End: Curso - Detalhes -->
 
+				<!-- Curso - Interesse -->
+				<div id="interesse" style="width: 780px; display:none">
+					<div class="header">
+						<h2>Tenho interesse</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dictum nunc felis. Etiam pharetra odio eu ante ultrices, nec egestas tortor luctus.</p>
+					</div>
+
+					<?php if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
+
+					<!-- Erros -->
+					<div class="message error">
+						<?php foreach($messagesInteresse as $message) : ?>
+						<p>- <?php echo $message; ?></p>
+						<?php endforeach; ?>
+					</div>
+					<!-- End: Erros -->
+					<?php endif; ?>
+
+					<form name="interesse" method="post">
+						<input type="hidden" name="interesse" value="1" />
+						<fieldset>
+							<div class="block-form">
+								<h3>DADOS DE CONTATO</h3>
+								<div class="col-2">
+									<label for="nome">Nome completo:</label>
+									<input id="nome" name="nome" type="text" />
+								</div>
+								<div class="col-4">
+									<label for="telefone-fixo">Telefone:</label>
+									<input class="telefone" id="telefone-fixo" name="telefone-fixo" type="text" placeholder="(00) 0000-0000" />
+								</div>
+								<div class="col-4">
+									<label for="telefone-celular">Celular:</label>
+									<input class="telefone" id="telefone-celular" name="telefone-celular" type="text" placeholder="(00) 0000-0000" />
+								</div>
+								<br class="clear">
+								<div class="col-2">
+									<label for="email">E-mail:</label>
+									<input id="email" name="email" type="text" />
+								</div>
+							</div>
+							<input type="submit" id="submit" value="ENVIAR" />
+						</fieldset>
+					</form>
+				</div>
+				<!-- End: Curso - Interesse -->
+
 				<!-- Curso - Inscricao -->
 				<div id="inscricao" style="width:780px; display:none;">
 					<div class="header">
@@ -182,13 +241,11 @@
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dictum nunc felis. Etiam pharetra odio eu ante ultrices, nec egestas tortor luctus.</p>
 					</div>
 
-					<?php 
-					if ( isset($messages) && is_array($messages) && count($messages) > 0 ) :
-						if ( isset($messages['id']) ) { unset($messages['id']); }
-					?>
+					<?php if ( isset($messagesInscricao) && is_array($messagesInscricao) && count($messagesInscricao) > 0 ) : ?>
+					<?php unset( $messagesInscricao['id'] ); ?>
 					<!-- Erros -->
 					<div class="message error">
-						<?php foreach($messages as $message) : ?>
+						<?php foreach($messagesInscricao as $message) : ?>
 						<p>- <?php echo $message; ?></p>
 						<?php endforeach; ?>
 					</div>
@@ -403,19 +460,6 @@
 							Telefone: (79) 3248 1572 ou (79) 3248 1645
 						</p>
 					</li>
-
-					<li>
-						<h4>Aracaju - SE</h4>
-						<p>
-							Ibex Brasil / Colégio Lavoisier<br />
-							Rua Promotor José Medeiros, 219 - Bairro Farolândia
-							Conjunto Augusto Franco<br />
-							49030-690<br /><br />
-
-							Horário do Polo: De segunda a sexta-feira, das 8 às 17h.<br />
-							Telefone: (79) 3248 1572 ou (79) 3248 1645
-						</p>
-					</li>
 				</ul>
 			</div>
 		</div>
@@ -504,6 +548,25 @@
 					var $inscricao = $('#inscricao');
 					<?php foreach($_POST as $key => $value) : ?>
 					$( '[name=<?php echo $key; ?>]', $inscricao ).val('<?php echo $value; ?>');
+					<?php endforeach; ?>
+
+					setTimeout(function() {
+						$('.message').fadeOut('slow', function() {
+							$(this).remove();
+						});
+					}, 3000);
+				});
+			})(jQuery);
+		</script>
+		<?php endif; ?>
+
+		<?php if ( isset($_POST['interesse']) ) : ?>
+		<script>
+			(function($) {
+				$(function() {
+					var $interesse = $('#interesse');
+					<?php foreach($_POST as $key => $value) : ?>
+					$( '[name=<?php echo $key; ?>]', $interesse ).val('<?php echo $value; ?>');
 					<?php endforeach; ?>
 
 					setTimeout(function() {
