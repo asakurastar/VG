@@ -1,0 +1,688 @@
+/*
+Theme Name: UNISUL VG
+Author: 4PS
+Author URI: http://4ps.com.br
+Description: UNISUL Você Graduado
+Version: 1
+*/
+
+
+/******************************************************************
+* RESET
+/*****************************************************************/
+
+* { margin:0; padding: 0; outline: none; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+a img { border: 0; }
+a { text-decoration: none; }
+fieldset { border: 0; }
+html, body { width: 100%; height: 100%; }
+ul, ol { list-style: none; }
+body { font-family: "Arial"; font-size: 14px; color: #808080; }
+
+
+
+/******************************************************************
+* FONTFACE
+/*****************************************************************/
+
+@font-face {
+    font-family: 'museo100';
+    src: url('fonts/museo100-regular-webfont.eot');
+    src: url('fonts/museo100-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museo100-regular-webfont.woff') format('woff'),
+         url('fonts/museo100-regular-webfont.ttf') format('truetype'),
+         url('fonts/museo100-regular-webfont.svg#museo100') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'museo300';
+    src: url('fonts/museo300-regular-webfont.eot');
+    src: url('fonts/museo300-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museo300-regular-webfont.woff') format('woff'),
+         url('fonts/museo300-regular-webfont.ttf') format('truetype'),
+         url('fonts/museo300-regular-webfont.svg#museo300') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'museo500';
+    src: url('fonts/museo500-regular-webfont.eot');
+    src: url('fonts/museo500-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museo500-regular-webfont.woff') format('woff'),
+         url('fonts/museo500-regular-webfont.ttf') format('truetype'),
+         url('fonts/museo500-regular-webfont.svg#museo500') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'museo700';
+    src: url('fonts/museo700-regular-webfont.eot');
+    src: url('fonts/museo700-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museo700-regular-webfont.woff') format('woff'),
+         url('fonts/museo700-regular-webfont.ttf') format('truetype'),
+         url('fonts/museo700-regular-webfont.svg#museo700') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'museo900';
+    src: url('fonts/museo900-regular-webfont.eot');
+    src: url('fonts/museo900-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museo900-regular-webfont.woff') format('woff'),
+         url('fonts/museo900-regular-webfont.ttf') format('truetype'),
+         url('fonts/museo900-regular-webfont.svg#museo900') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'sitka';
+    src: url('fonts/sitka.eot');
+    src: url('fonts/sitka.eot') format('embedded-opentype'),
+         url('fonts/sitka.woff') format('woff'),
+         url('fonts/sitka.ttf') format('truetype'),
+         url('fonts/sitka.svg#SitkaSmallRegular') format('svg');
+}
+
+
+
+/******************************************************************
+* GENERIC
+/*****************************************************************/
+.limit { width: 1000px; margin: 0 auto; }
+
+.clear { display: block; clear: both; }
+
+.btn-secundary { font-family: museo500; font-size: 18px; color: #ef6910; text-transform: uppercase; padding: 20px; border-radius: 4px; border: 1px solid #ef6910; }
+
+.btn { font-family: museo500; font-size: 18px; color: #fff; text-transform: uppercase; padding: 20px 20px 18px 20px; background:#ef6910;  border-radius: 4px; border: 1px solid #ef6910; border-bottom: 3px solid #cb5b10; }
+.btn:hover { font-family: museo500; font-size: 18px; color: #fff; text-transform: uppercase; padding: 20px; background:#cb5b10;  border-radius: 4px; border: 1px solid #cb5b10; }
+
+.block { width: 100%; clear: both; display: block; }
+
+.col { width: 50%; float: left; display: inline-block; }
+
+
+
+/******************************************************************
+* HEADER
+/*****************************************************************/
+
+header {
+	width: 100%;
+	height: 615px;
+	padding: 25px 0 0 0;
+	clear: both;
+	display: block;
+	background: url(img/background_header.jpg) no-repeat top;
+}
+
+header .logo {
+	width: 279px;
+	height: 93px;
+	float: left;
+	display: block;
+	outline: none;
+	text-indent: -99999px;
+	background: url(img/logo_unisul-50-anos-vg.png) no-repeat;
+}
+
+header nav {
+	float: right;
+	margin: 30px 0 0 0;
+}
+
+header nav li {
+	display: inline-block;
+	float: left;
+	margin: 0 0 0 20px;
+	padding: 0 0 0 24px;
+	background: url(img/bullet.png) no-repeat left; 
+}
+
+header nav li:first-child {
+	margin: 0;
+	padding: 0;
+	background: none; }
+
+header nav li a {
+	font-family: museo300;
+	color: #ef6910;
+	font-size: 22px;
+}
+
+header nav li a:hover {	background: url(img/nav-decoration.png) repeat-x bottom; }
+
+header h2 {
+	font-family: museo700;
+	font-size: 40px;
+	color: #011369;
+	display: block;
+	margin: 60px 0 10px 0;
+}
+
+header h3 {
+	font-family: museo100;
+	font-size: 33px;
+	color: #007dbf;
+	display: block;
+}
+
+header h4 {
+	font-family: museo100;
+	font-size: 20px;
+	color: #828282;
+	display: block;
+	margin: 20px 0 40px 0;
+}
+
+header .selo {
+	font-family: museo100;
+	font-size: 18px;
+	line-height: 50px;
+	color: #828282;
+	height: 50px;
+	padding: 0 63px 0 0;
+	margin: 45px 0 0 125px;
+	float: left;
+	background: url(img/selo-mec.png) no-repeat right;
+}
+
+
+
+/******************************************************************
+* A UNISUL
+/*****************************************************************/
+
+.block.aunisul {
+	background: #fff;
+	padding: 95px 0;
+}
+
+.block.aunisul .limit { padding: 0 0 0 500px; }
+
+.block.aunisul h2 {
+	font-family: museo500;
+	font-size: 23px;
+	color: #007dbf;
+	margin: 0 0 30px 0;
+}
+
+
+
+/******************************************************************
+* O QUE É EAD
+/*****************************************************************/
+
+.block.oquee {
+	background: url(img/background_blue.jpg) repeat-y top;
+	padding: 95px 0;
+	color: #fff;
+	overflow: hidden;
+}
+
+.block.oquee h2 {
+	width: 480px;
+	float: left;
+	font-family: museo100;
+	font-size: 70px;
+	font-weight: 100;
+	color: #fff;
+	text-align: right;
+	padding: 0 50px 90px 0;
+	background: url(img/arrow.png) no-repeat right bottom;
+}
+
+.block.oquee h2 strong { font-family: museo700; }
+
+.block.oquee .text {
+	width: 500px;
+	float: right;
+}
+
+.block.oquee p {
+	font-family: sitka;
+	font-size: 20px;
+	line-height: 27px;
+	margin: 0 0 25px 0;
+}
+
+.block.oquee h3 {
+	font-family: museo700;
+	font-size: 20px;
+	margin: 0 0 10px 0;
+}
+
+.block.oquee ul li {
+	font-family: sitka;
+	font-size: 20px;
+	margin: 0 0 10px 0;
+	padding: 0 0 0 15px;
+	background: url(img/bullet2.png) no-repeat 0;
+}
+
+.block.oquee ul li span {
+	font-size: 14px;
+}
+
+
+
+/******************************************************************
+* VANTAGENS
+/*****************************************************************/
+
+.block.vantagens {
+	background: url(img/background_gray.jpg) repeat-y top;
+	padding: 95px 0;
+	overflow: hidden;
+}
+
+.block.vantagens .limit {
+	padding: 0 0 0 350px;
+}
+
+.block.vantagens h2 {
+	font-family: museo100;
+	color: #011369;
+	margin: 0 0 10px 0;
+}
+
+.block.vantagens h2 strong { font-family: museo700; }
+
+.block.vantagens ul li {
+	width: 50%;
+	min-height: 75px;
+	padding: 0 10px 0 50px;
+	margin: 25px 0 0 0;
+	display: inline-block;
+	float: left;
+	font-family: sitka;
+	font-size: 20px;
+	position: relative;
+}
+
+.block.vantagens ul li span {
+	font-family: museo500;
+	color: #007dbf;
+	font-size: 50px;
+	line-height: 50px;
+	position: absolute;
+	left: 0;
+}
+
+
+
+/******************************************************************
+* CURSOS
+/*****************************************************************/
+
+.block.cursos {
+	background: #fff;
+	padding: 95px 0;
+	overflow: hidden;
+}
+
+.block.cursos h2 {
+	width: 50%;
+	font-family: museo100;
+	font-weight: 100;
+	color: #011369;
+	font-size: 52px;
+	margin: 0 0 35px 0;
+	float: left;
+}
+
+.block.cursos h2 strong {
+	font-family: museo500;
+	font-weight: 500;
+}
+
+.block.cursos .search {
+	width: 321px;
+	float: right;
+	background: url(img/background_search.png) no-repeat bottom;
+}
+
+.block.cursos .search input[type="text"] {
+	font-family: sitka;
+	color: #007dbf;
+	font-size: 25px;
+	padding: 8px 15px;
+	border: 0;
+	background: none;
+}
+
+.block.cursos .search input[type="submit"] {
+	width: 20px;
+	height: 20px;
+	border: 0;
+	background: url(img/ico_search.png) no-repeat;
+	cursor: pointer;
+}
+
+.block.cursos #accordion h3 {
+	font-family: museo100;
+	font-weight: 300;
+	color: #007dbf;
+	font-size: 30px;
+	cursor: pointer;
+	padding: 0 0 0 30px;
+	margin: 45px 0 0 0;
+}
+
+.block.cursos #accordion h3:first-child { margin: 0; }
+
+.block.cursos #accordion h3.ui-state-active {
+	background: url(img/accordion-active.png) no-repeat 0 !important;
+}
+
+.block.cursos #accordion h3.ui-state-default {
+	background: url(img/accordion-default.png) no-repeat 0;
+}
+
+.block.cursos #accordion .ui-accordion-content {
+	padding: 10px 0 0 30px;
+}
+
+.block.cursos #accordion .ui-accordion-content ul li {
+	display: inline-block;
+	float: left;
+	width: 50%;
+	margin: 10px 0 0 0;
+}
+
+.block.cursos #accordion .ui-accordion-content ul li a {
+	font-family: sitka;
+	font-size: 20px;
+	color: #767676;
+}
+
+.block.cursos #accordion .ui-accordion-content ul li a:hover {
+	color: #ef6910;
+}
+
+.block.cursos #accordion .ui-accordion-content ul li a span {
+	font-size: 15px;
+	color: #aaa9a9;
+}
+
+
+
+/******************************************************************
+* POLOS
+/*****************************************************************/
+
+.block.polos {
+	background: #fff;
+	padding: 0  0 95px 0;
+	overflow: hidden;
+}
+
+.block.polos .limit {
+	background: #f2f2f2;
+	padding: 30px;
+}
+
+.block.polos h2 {
+	font-family: museo500;
+	font-weight: 300;
+	color: #011369;
+	font-size: 30px;
+	margin: 0 0 15px 0;
+}
+
+.block.polos p {
+	font-family: sitka;
+	font-size: 20px;
+	line-height: 27px;
+}
+
+.block.polos h3 {
+	font-family: museo500;
+	font-weight: 300;
+	color: #767676;
+	font-size: 20px;
+	margin: 35px 0 15px 0;
+}
+
+.block.polos ul {
+	max-height: 450px;
+	overflow-y: scroll;
+}
+
+.block.polos ul li {
+	width: 47%;
+	display: inline-block;
+	float: left;
+	margin: 0 20px 20px 0;
+	padding: 15px;
+	border: 1px solid #dcdcdc;
+}
+
+.block.polos ul li h4 {
+	font-family: sitka;
+	font-size: 20px;
+	font-weight: normal;
+	color: #007dbf;
+}
+
+.block.polos ul li p {
+	font-size: 17px;
+	line-height: 22px;
+}
+
+
+
+/******************************************************************
+* PRAVALER
+/*****************************************************************/
+
+.block.pravaler {
+	background: url(img/background_blue2.jpg) repeat-y top;
+	padding: 95px 0;
+	overflow: hidden;
+	color: #fff;
+}
+
+.block.pravaler h2 {
+	height: 75px;
+	background: url(img/logo_pravaler.png) no-repeat;
+	font-family: museo300;
+	font-weight: 300;
+	font-size: 18px;
+	padding: 10px 0 0 320px;
+	margin: 0 0 45px 0;
+}
+
+.block.pravaler h2 strong {
+	display: block;
+	font-family: museo700;
+	font-size: 20px;
+	text-transform: uppercase;
+	margin: 0 0 5px 0;
+}
+
+.block.pravaler h3 {
+	font-family: museo700;
+	font-size: 20px;
+	margin: 0 0 20px 0;
+}
+
+.block.pravaler p {
+	font-family: sitka;
+	font-size: 20px;
+	line-height: 27px;
+	margin: 0 0 25px 0;
+}
+
+.block.pravaler ul li {
+	font-family: sitka;
+	font-size: 20px;
+	margin: 0 0 10px 0;
+	padding: 0 0 0 15px;
+	background: url(img/bullet2.png) no-repeat 0 8px;
+}
+
+
+
+/******************************************************************
+* PATROCINIO
+/*****************************************************************/
+
+.block.patrocinio {
+	height: 247px;
+	background: url(img/background_patrocinio.jpg) no-repeat top;
+	padding: 50px 0;
+	overflow: hidden;
+}
+
+.block.patrocinio .limit {
+	padding: 0 0 0 500px;
+}
+
+.block.patrocinio h2 {
+	font-family: museo100;
+	font-size: 18px;
+	color: #ffd504;
+}
+
+.block.patrocinio h2 strong {
+	font-family: museo700;
+	font-size: 25px;
+	color: #f57921;
+	display: block;
+}
+
+.block.patrocinio ul { margin: 25px 0 0 0; }
+
+.block.patrocinio ul li {
+	width: 50%;
+	display: inline-block;
+	float: left;
+}
+
+.block.patrocinio ul li.jovempan {
+	height: 76px;
+	background: url(img/logo_jovempan.png) no-repeat;
+	padding: 0 0 0 100px;
+}
+
+.block.patrocinio ul li.jovempan a {
+	width: 115px;
+	height: auto;
+	background: #ffd504;
+	border-radius: 4px;
+	border-bottom: 2px solid #f57921;
+	display: block;
+	font-family: sitka;
+	font-size: 16px;
+	line-height: 24px;
+	text-align: center;
+	color: #ad4801;
+	margin: 10px 0 0 0;
+}
+
+.block.patrocinio ul li.jovempan a:hover {
+	background: #f57921;
+	color: #fff;
+}
+
+.block.patrocinio ul li.vocestore {
+	background: url(img/background_division.png) no-repeat;
+}
+
+.block.patrocinio ul li.vocestore a {
+	width: 212px;
+	height: 76px;
+	float: right;
+	display: block;
+	outline: none;
+	text-indent: -99999px;
+	background: url(img/logo_vocestore.png) no-repeat;
+}
+
+
+
+/******************************************************************
+* FOOTER
+/*****************************************************************/
+
+footer {
+	width: 100%;
+	clear: both;
+	display: block;
+	background: url(img/background_footer.jpg) no-repeat top;
+	padding: 50px 0;
+	overflow: hidden;
+}
+
+footer .logo {
+	width: 100%;
+	height: 93px;
+	text-indent: -9999px;
+	background: url(img/logo_unisul-50-anos-vg2.png) no-repeat top;
+	margin: 0 0 30px 0;
+}
+
+footer ul {
+	padding: 30px 0 0 0;
+	border-top: 1px solid #4c4c4c;
+}
+
+footer ul li {
+	display: inline-block;
+	float: left;
+	font-family: sitka;
+	color: #9f9f9f;
+	font-size: 20px;
+	margin: 0 0 0 70px;
+}
+
+footer ul li:first-child { margin: 0 0 0 200px; }
+
+footer ul li .facebook {
+	width: 28px;
+	height: 28px;
+	float: left;
+	display: block;
+	outline: none;
+	text-indent: -99999px;
+	margin: 10px 10px 0 0;
+	background: url(img/ico_facebook.png) no-repeat;
+}
+
+footer ul li .twitter {
+	width: 28px;
+	height: 28px;
+	float: left;
+	display: block;
+	outline: none;
+	text-indent: -99999px;
+	margin: 10px 10px 0 0;
+	background: url(img/ico_twitter.png) no-repeat;
+}
+
+footer ul li .youtube {
+	width: 28px;
+	height: 28px;
+	float: left;
+	display: block;
+	outline: none;
+	text-indent: -99999px;
+	margin: 10px 10px 0 0;
+	background: url(img/ico_youtube.png) no-repeat;
+}
+
+footer ul li .blog {
+	width: 59px;
+	height: 65px;
+	display: block;
+	outline: none;
+	text-indent: -99999px;
+	background: url(img/ico_blog.png) no-repeat;
+}

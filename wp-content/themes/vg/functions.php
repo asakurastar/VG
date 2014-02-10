@@ -126,7 +126,6 @@ function ajax_cursos() {
 			$args = array(
 				'post_type'       => 'cursos',
 				'posts_per_page'  => -1,
-				'post_title_like' => $search,
 				'post_status'     => 'publish',
 				'orderby'         => 'title', 
 				'order'           => 'ASC',
@@ -138,6 +137,10 @@ function ajax_cursos() {
 				)
 			);
 
+			if ( 'all' != $search ) {
+				$args['post_title_like'] = $search;
+			}
+
 			add_filter( 'posts_where', 'post_filter_where', 10, 2 );
 			$query = new WP_Query($args);
 			remove_filter( 'posts_where', 'post_filter_where', 10, 2 );
@@ -148,7 +151,7 @@ function ajax_cursos() {
 						'id'        => $post->ID,
 						'name'      => $post->post_name,
 						'title'     => $post->post_title,
-						'titulacao' => get_field( 'titulacao', $post->ID )
+						'titulacao' => get_field( 'nivel', $post->ID )
 					) );
 				}
 			}
