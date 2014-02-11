@@ -162,7 +162,8 @@ function ajax_cursos() {
 
 	die('0');
 }
-add_action( 'wp_ajax_cursos', 'ajax_cursos' );
+add_action( 'wp_ajax_nopriv_cursos', 'ajax_cursos' );
+add_action( 'wp_ajax_cursos',        'ajax_cursos' );
 
 // Ajax para carregar todas as informações de um determinado curso
 function ajax_load_curso() {
@@ -187,7 +188,8 @@ function ajax_load_curso() {
 
 	die('0');
 }
-add_action( 'wp_ajax_curso', 'ajax_load_curso' );
+add_action( 'wp_ajax_nopriv_curso', 'ajax_load_curso' );
+add_action( 'wp_ajax_curso',        'ajax_load_curso' );
 
 /*
  *************************************************************************************************
