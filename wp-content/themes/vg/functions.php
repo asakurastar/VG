@@ -307,6 +307,51 @@ add_filter( 'post_row_actions', 'remove_quick_edit_inscricao_interesse', 10, 2 )
 add_action( 'admin_menu',       'remove_new_inscricao_interesse_menu'          );
 add_action( 'admin_head',       'remove_new_inscricao_interesse_button'        );
 
+// Adiciona/modifica colunas na listagem de inscrição
+function add_new_columns_inscricao( $columns ) {
+	$columns['title'] = 'Nome';
+	$columns['curso'] = 'Curso';
+	$columns['polo']  = 'Polo';
+	$columns['date']  = 'Data de inscrição';
+
+	return $columns;
+}
+function manage_columns_inscricao( $column_name, $id ) {
+	switch ( $column_name ) {
+		case 'curso' : {
+			echo get_post( get_field( 'curso', $id ) )->post_title;
+			break;
+		}		
+		case 'polo' : {
+			echo get_post( get_field( 'polo', $id ) )->post_title;
+			break;
+		}
+		default: break;
+	}
+} 
+add_filter('manage_edit-inscricoes_columns',        'add_new_columns_inscricao'      );
+add_action('manage_inscricoes_posts_custom_column', 'manage_columns_inscricao', 10, 2);
+
+// Adiciona/modifica colunas na listagem de interesse
+function add_new_columns_interesse( $columns ) {
+	$columns['title'] = 'Nome';
+	$columns['curso'] = 'Curso';
+	$columns['date']  = 'Data de interesse';
+
+	return $columns;
+}
+function manage_columns_interesse( $column_name, $id ) {
+	switch ( $column_name ) {
+		case 'curso' : {
+			echo get_post( get_field( 'curso', $id ) )->post_title;
+			break;
+		}
+		default: break;
+	}
+}
+add_filter('manage_edit-interesses_columns',        'add_new_columns_interesse'      );
+add_action('manage_interesses_posts_custom_column', 'manage_columns_interesse', 10, 2);
+
 // Captura e salva os dados do formulário de inscrição
 function save_inscricao() {
 
