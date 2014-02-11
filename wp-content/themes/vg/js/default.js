@@ -36,10 +36,16 @@ $(function() {
 	$('.fancybox-inscricao').fancybox();
 
 	// Mask
-	$('.telefone').mask('(99) 9999-9999');
 	$('.cep').mask('99.999-999');
 	$('.data').mask('99/99/9999');
 	$('.cpf').mask('999.999.999-99');
+	$(".telefone").mask("(99) 9999-9999?9", { placeholder : "_" }).focus(function() {
+		$(this).keyup(function() {
+			numeros = $(this).val().replace(/\D/g, '');
+			if ( numeros.length == 11 ) { $(this).mask("(99) 99999-9999", { placeholder : "_" }); }
+			if ( numeros.length == 10 ) { $(this).mask("(99) 9999-9999?9", { placeholder : "_" }); }
+		});
+	});
 });
 
 function search( value ) {

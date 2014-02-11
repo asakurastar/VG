@@ -170,10 +170,11 @@ function ajax_load_curso() {
 	header("Content-type: application/x-javascript");
 
 	if ( isset($_GET['id']) && !empty($_GET['id']) ) {
-		$post               = get_post( $_GET['id'] );
-		$post->post_content = apply_filters( 'the_content', $post->post_content );
+		$post = get_post( $_GET['id'] );
 
 		if ( $post ) {
+			$post->post_content = apply_filters( 'the_content', $post->post_content );
+
 			if ( $fields = get_fields( $post->ID ) ) {
 				if ( is_array($fields) && count($fields) > 0 ) {
 					foreach( $fields as $key => $value ) {
