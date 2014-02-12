@@ -6,12 +6,6 @@ function remove_admin_menus() {
 }
 add_action( 'admin_menu', 'remove_admin_menus' );
 
-// Adiciona suporte para resumo de texto em páginas
-function add_page_excerpts() {
-	add_post_type_support( 'page', 'excerpt' );
-}
-add_action( 'init', 'add_page_excerpts' );
-
 // Registra post type para cursos
 function register_post_type_cursos() {
 	$labels = array(
@@ -97,6 +91,24 @@ function post_filter_where( $where, &$wp_query ) {
 	return $where;
 }
 add_filter( 'posts_where', 'post_filter_where', 10, 2 );
+
+// Remove visualmente a capacidade de editar o permalink/campo código em polos e cursos
+function disable_polo_curso_edit_codigo() {
+	$screen = get_current_screen();
+	if ( isset($screen->post_type) && in_array( $screen->post_type, array('cursos', 'polos') ) ) {
+?>
+	<style>
+		#edit-slug-box { display: none !important; }
+	</style>
+	<script>
+		jQuery(document).ready(function() {
+			jQuery('#acf-field-codigo').attr({'readonly' : true, 'disabled' : true });
+		});
+	</script>
+<?php
+	}
+}
+add_action( 'admin_head', 'disable_polo_curso_edit_codigo' );
 
 // Ajax para buscar cursos pesquisados
 function ajax_cursos() {
