@@ -585,7 +585,7 @@ function export_inscricoes_csv() {
 function export_bulk_admin_footer() {
 	global $post_type;
 
-	if ( isset($post_type) && 'inscricoes' == $post_type ) {
+	if ( ( !isset($_GET['post_status']) || 'trash' != $_GET['post_status'] ) && isset($post_type) && 'inscricoes' == $post_type ) {
 	?>
 		<script type="text/javascript">
 			(function($) {
