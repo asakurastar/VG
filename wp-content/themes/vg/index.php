@@ -218,12 +218,12 @@
 									<input id="nome" name="nome" type="text" />
 								</div>
 								<div class="col-4">
-									<label for="telefone-fixo">Telefone:</label>
-									<input class="telefone" id="telefone-fixo" name="telefone-fixo" type="text" placeholder="(00) 0000-0000" />
+									<label for="telefone_fixo">Telefone:</label>
+									<input class="telefone" id="telefone_fixo" name="telefone_fixo" type="text" placeholder="(00) 0000-0000" />
 								</div>
 								<div class="col-4">
-									<label for="telefone-celular">Celular:</label>
-									<input class="telefone" id="telefone-celular" name="telefone-celular" type="text" placeholder="(00) 0000-0000" />
+									<label for="telefone_celular">Celular:</label>
+									<input class="telefone" id="telefone_celular" name="telefone_celular" type="text" placeholder="(00) 0000-0000" />
 								</div>
 								<br class="clear">
 								<div class="col-2">
@@ -367,12 +367,12 @@
 								</div>
 
 								<div class="col-4">
-									<label for="telefone-fixo">Telefone:</label>
-									<input class="telefone" id="telefone-fixo" name="telefone-fixo" type="text" placeholder="(00) 0000-0000" />
+									<label for="telefone_fixo">Telefone:</label>
+									<input class="telefone" id="telefone_fixo" name="telefone_fixo" type="text" placeholder="(00) 0000-0000" />
 								</div>
 								<div class="col-4">
-									<label for="telefone-celular">Celular:</label>
-									<input class="telefone" id="telefone-celular" name="telefone-celular" type="text" placeholder="(00) 0000-0000" />
+									<label for="telefone_celular">Celular:</label>
+									<input class="telefone" id="telefone_celular" name="telefone_celular" type="text" placeholder="(00) 0000-0000" />
 								</div>
 								<br class="clear" />
 								<div class="col-2">

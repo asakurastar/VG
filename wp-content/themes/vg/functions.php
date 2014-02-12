@@ -363,7 +363,6 @@ function save_inscricao() {
 	$fields = array(
 		'nome'               => 'Nome completo',
 		'rg'                 => 'RG',
-		'uf'                 => 'UF',
 		'orgao'              => 'Órgão emissor',
 		'cpf'                => array(
 			'name'  => 'CPF',
@@ -375,7 +374,6 @@ function save_inscricao() {
 			'mask'   => '/^((\d){2}\/){2}(\d){4}$/',
 			'error'  => 'O campo %name% deve estar no formato DD/MM/AAAA'
 		),
-		'sexo'               => 'Sexo',
 		'cep'                => array(
 			'name'  => 'CEP',
 			'mask'  => '/^(\d){2}\.(\d){3}\-(\d){3}$/',
@@ -386,8 +384,8 @@ function save_inscricao() {
  		'complemento'        => 'Complemento',
 		'bairro'             => 'Bairro',
 		'cidade'             => 'Cidade',
-		'telefone-fixo'      => 'Telefone (Fixo)',
-		'telefone-celular'   => 'Telefone (Celular)',
+		'telefone_fixo'      => 'Telefone (Fixo)',
+		'telefone_celular'   => 'Telefone (Celular)',
 		'email'              => array(
 			'name'  => 'E-Mail',
 			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
@@ -395,11 +393,8 @@ function save_inscricao() {
 		)
 	);
 
-	// Mensagens de erro, sucesso, etc
-	$messagesInscricao = array();
-
 	if ( isset($_POST['inscricao']) ) {
-		array_map('sanitize_text_field', $_POST);
+		$messagesInscricao = array();
 
 		foreach( $fields as $k => $v ) {
 			$name  = is_array($v) ? $v['name'] : $v;
@@ -409,11 +404,9 @@ function save_inscricao() {
 				array_push( $messagesInscricao,  $error );
 			}
 
-			elseif ( isset( $v['mask'] ) && !empty( $v['mask'] ) ) {
-				if ( !preg_match( $v['mask'], $_POST[ $k ] ) ) {
-					$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-					array_push( $messagesInscricao,  $error );
-				}
+			elseif ( is_array($v) && isset( $v['mask'] ) && !preg_match( $v['mask'], $_POST[ $k ] ) ) {
+				$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
+				array_push( $messagesInscricao,  $error );
 			}
 		}
 
@@ -455,8 +448,8 @@ function save_interesse() {
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
 		'nome'               => 'Nome completo',
-		'telefone-fixo'      => 'Telefone (Fixo)',
-		'telefone-celular'   => 'Telefone (Celular)',
+		'telefone_fixo'      => 'Telefone (Fixo)',
+		'telefone_celular'   => 'Telefone (Celular)',
 		'email'              => array(
 			'name'  => 'E-Mail',
 			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
@@ -464,25 +457,20 @@ function save_interesse() {
 		)
 	);
 
-	// Mensagens de erro, sucesso, etc
-	$messagesInteresse = array();
-
 	if ( isset($_POST['interesse']) ) {
-		array_map('sanitize_text_field', $_POST);
+		$messagesInteresse = array();
 
 		foreach( $fields as $k => $v ) {
 			$name  = is_array($v) ? $v['name'] : $v;
 			$error = "O campo {$name} deve ser preenchido e válido";
 
 			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
-				array_push( $messagesInteresse,  $error );
+				array_push( $messagesInscricao,  $error );
 			}
 
-			elseif ( isset( $v['mask'] ) && !empty( $v['mask'] ) ) {
-				if ( !preg_match( $v['mask'], $_POST[ $k ] ) ) {
-					$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-					array_push( $messagesInteresse,  $error );
-				}
+			elseif ( is_array($v) && isset( $v['mask'] ) && !preg_match( $v['mask'], $_POST[ $k ] ) ) {
+				$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
+				array_push( $messagesInscricao,  $error );
 			}
 		}
 
@@ -596,7 +584,7 @@ function export_inscricoes_csv() {
 }
 function export_bulk_admin_footer() {
 	global $post_type;
-	
+
 	if ( isset($post_type) && 'inscricoes' == $post_type ) {
 	?>
 		<script type="text/javascript">
