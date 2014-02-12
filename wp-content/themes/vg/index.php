@@ -45,29 +45,42 @@
 
 		<?php wp_head(); ?>
 
-		<?php 
-		if ( isset($messagesInscricao) && is_array($messagesInscricao) && count($messagesInscricao) > 0 ) :
-			$curso = isset( $messagesInscricao['id'] ) ? $messagesInscricao['id'] : 0;
-		?>
+		<?php if ( isset($messagesInscricao) && count($messagesInscricao) > 0 ) :?>
 		<script>
 			$(function() {
+				var selector   = '#inscricao';
+				var $inscricao = $( selector );
 				$.fancybox.open('.fancybox-inscricao', { 
-					href : '#inscricao',
-					afterShow : function() {
-						$('#curso').val( '<?php echo $curso; ?>' );
+					href       : selector,
+					afterClose : function() {
+						$( 'input, select', $inscricao ).removeClass('error');
+						$( '.message', $inscricao ).remove();
 					}
 				});
+
+				<?php foreach($messagesInscricao as $field) : ?>
+				$( '[name=<?php echo str_replace( "_", "\\\\_", $field ); ?>]', $inscricao ).addClass('error');
+				<?php endforeach; ?>
 			});
 		</script>
 		<?php endif; ?>
 
-		<?php 
-		if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : 
-			$curso = isset( $messagesInteresse['id'] ) ? $messagesInteresse['id'] : 0;
-		?>
+		<?php if ( isset($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
 		<script>
 			$(function() {
-				$.fancybox.open('.fancybox-interesse', { href : '#interesse' });
+				var selector   = '#interesse';
+				var $interesse = $( selector );
+				$.fancybox.open('.fancybox-interesse', { 
+					href       : selector,
+					afterClose : function() {
+						$( 'input, select', $interesse ).removeClass('error');
+						$( '.message', $interesse ).remove();
+					}
+				});
+
+				<?php foreach($messagesInteresse as $field) : ?>
+				$( '[name=<?php echo str_replace( "_", "\\\\_", $field ); ?>]', $interesse ).addClass('error');
+				<?php endforeach; ?>
 			});
 		</script>
 		<?php endif; ?>
@@ -197,15 +210,10 @@
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dictum nunc felis. Etiam pharetra odio eu ante ultrices, nec egestas tortor luctus.</p>
 					</div>
 
-					<?php if ( isset($messagesInteresse) && is_array($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
-					<?php unset( $messagesInteresse['id'] ); ?>
-					<!-- Erros -->
+					<?php if ( isset($messagesInteresse) && count($messagesInteresse) > 0 ) : ?>
 					<div class="message error">
-						<?php foreach($messagesInteresse as $message) : ?>
-						<p>- <?php echo $message; ?></p>
-						<?php endforeach; ?>
+						<p>Erro - Os campos em destaque devem ser preenchidos ou são inválidos</p>
 					</div>
-					<!-- End: Erros -->
 					<?php endif; ?>
 
 					<form name="interesse" method="post">
@@ -259,15 +267,10 @@
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dictum nunc felis. Etiam pharetra odio eu ante ultrices, nec egestas tortor luctus.</p>
 					</div>
 
-					<?php if ( isset($messagesInscricao) && is_array($messagesInscricao) && count($messagesInscricao) > 0 ) : ?>
-					<?php unset( $messagesInscricao['id'] ); ?>
-					<!-- Erros -->
+					<?php if ( isset($messagesInscricao) && count($messagesInscricao) > 0 ) : ?>
 					<div class="message error">
-						<?php foreach($messagesInscricao as $message) : ?>
-						<p>- <?php echo $message; ?></p>
-						<?php endforeach; ?>
+						<p>Erro - Os campos em destaque devem ser preenchidos ou são inválidos</p>
 					</div>
-					<!-- End: Erros -->
 					<?php endif; ?>
 
 					<form name="inscricao" method="post">
@@ -589,12 +592,6 @@
 					<?php foreach($_POST as $key => $value) : ?>
 					$( '[name=<?php echo $key; ?>]', $inscricao ).val('<?php echo $value; ?>');
 					<?php endforeach; ?>
-
-					setTimeout(function() {
-						$('.message').fadeOut('slow', function() {
-							$(this).remove();
-						});
-					}, 3000);
 				});
 			})(jQuery);
 		</script>
@@ -608,12 +605,6 @@
 					<?php foreach($_POST as $key => $value) : ?>
 					$( '[name=<?php echo $key; ?>]', $interesse ).val('<?php echo $value; ?>');
 					<?php endforeach; ?>
-
-					setTimeout(function() {
-						$('.message').fadeOut('slow', function() {
-							$(this).remove();
-						});
-					}, 3000);
 				});
 			})(jQuery);
 		</script>

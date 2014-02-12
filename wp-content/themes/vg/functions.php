@@ -373,35 +373,27 @@ function save_inscricao() {
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
-		'nome'               => 'Nome completo',
-		'rg'                 => 'RG',
-		'orgao'              => 'Órgão emissor',
-		'cpf'                => array(
-			'name'  => 'CPF',
-			'mask'  => '/^((\d){3}\.){2}(\d){3}\-(\d){2}$/',
-			'error' => 'O campo %name% deve conter pontuação'
+		'nome',
+		'rg',
+		'orgao',
+		'cpf'        => array(
+			'mask'   => '/^((\d){3}\.){2}(\d){3}\-(\d){2}$/'
 		),
-		'nascimento'         => array(
-			'name'   => 'Data de nascimento',
-			'mask'   => '/^((\d){2}\/){2}(\d){4}$/',
-			'error'  => 'O campo %name% deve estar no formato DD/MM/AAAA'
+		'nascimento' => array(
+			'mask'   => '/^((\d){2}\/){2}(\d){4}$/'
 		),
-		'cep'                => array(
-			'name'  => 'CEP',
-			'mask'  => '/^(\d){2}\.(\d){3}\-(\d){3}$/',
-			'error' => 'O campo %name% deve estar no formato 00.000-000'
+		'cep'        => array(
+			'mask'   => '/^(\d){2}\.(\d){3}\-(\d){3}$/',
 		),
-		'endereco'           => 'Endereço',
-		'numero'             => 'Nº',
- 		'complemento'        => 'Complemento',
-		'bairro'             => 'Bairro',
-		'cidade'             => 'Cidade',
-		'telefone_fixo'      => 'Telefone (Fixo)',
-		'telefone_celular'   => 'Telefone (Celular)',
-		'email'              => array(
-			'name'  => 'E-Mail',
-			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
-			'error' => 'O campo %name% não parece ser um endereço válido'
+		'endereco',
+		'numero',
+ 		'complemento',
+		'bairro',
+		'cidade',
+		'telefone_fixo',
+		'telefone_celular',
+		'email'      => array(
+			'mask'   => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/'
 		)
 	);
 
@@ -409,26 +401,24 @@ function save_inscricao() {
 		$messagesInscricao = array();
 
 		foreach( $fields as $k => $v ) {
-			$name  = is_array($v) ? $v['name'] : $v;
-			$error = "O campo {$name} deve ser preenchido e válido";
 
+			// Normaliza chave/valor do campo
+			$k = ( !is_array($v) ) ? $v : $k; 
+
+			// Validações
 			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
-				array_push( $messagesInscricao,  $error );
+				array_push( $messagesInscricao, $k );
 			}
-
 			elseif ( is_array($v) && isset( $v['mask'] ) && !preg_match( $v['mask'], $_POST[ $k ] ) ) {
-				$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-				array_push( $messagesInscricao,  $error );
+
+				// Evita adicionar novamente o mesmo campo (caso já exista)
+				if ( !in_array( $k, $messagesInscricao ) ) {
+					array_push( $messagesInscricao, $k );
+				}
 			}
 		}
 
-		if ( count($messagesInscricao) > 0 ) {
-			if ( isset($_POST['curso']) ) {
-				$messagesInscricao['id'] = $_POST['curso'];
-			}
-		}
-
-		if ( 0 == count($messagesInscricao) ) {
+		if ( count($messagesInscricao) == 0 ) {
 			if ( $id = wp_insert_post(array(
 				'post_type'   => 'inscricoes',
 				'post_title'  => $_POST['nome'],
@@ -459,13 +449,11 @@ function save_interesse() {
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
-		'nome'               => 'Nome completo',
-		'telefone_fixo'      => 'Telefone (Fixo)',
-		'telefone_celular'   => 'Telefone (Celular)',
-		'email'              => array(
-			'name'  => 'E-Mail',
-			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
-			'error' => 'O campo %name% não parece ser um endereço válido'
+		'nome',
+		'telefone_fixo',
+		'telefone_celular',
+		'email'      => array(
+			'mask'   => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/'
 		)
 	);
 
@@ -473,22 +461,20 @@ function save_interesse() {
 		$messagesInteresse = array();
 
 		foreach( $fields as $k => $v ) {
-			$name  = is_array($v) ? $v['name'] : $v;
-			$error = "O campo {$name} deve ser preenchido e válido";
 
+			// Normaliza chave/valor do campo
+			$k = ( !is_array($v) ) ? $v : $k; 
+
+			// Validações
 			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
-				array_push( $messagesInscricao,  $error );
+				array_push( $messagesInteresse, $k );
 			}
-
 			elseif ( is_array($v) && isset( $v['mask'] ) && !preg_match( $v['mask'], $_POST[ $k ] ) ) {
-				$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-				array_push( $messagesInscricao,  $error );
-			}
-		}
 
-		if ( count($messagesInteresse) > 0 ) {
-			if ( isset($_POST['curso']) ) {
-				$messagesInteresse['id'] = $_POST['curso'];
+				// Evita adicionar novamente o mesmo campo (caso já exista)
+				if ( !in_array( $k, $messagesInteresse ) ) {
+					array_push( $messagesInteresse, $k );
+				}
 			}
 		}
 

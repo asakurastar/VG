@@ -888,6 +888,10 @@ footer ul li .blog {
 	border-color: #007dbf;
 }
 
+#inscricao fieldset .error {
+	border-color: #ff0000 !important;
+}
+
 #inscricao fieldset select {
 	width: 87%;
 	border-radius: 4px;
@@ -1008,6 +1012,10 @@ footer ul li .blog {
 
 #interesse fieldset input[type="text"]:focus {
 	border-color: #007dbf;
+}
+
+#interesse fieldset .error {
+	border-color: #ff0000 !important;
 }
 
 #interesse fieldset select {
