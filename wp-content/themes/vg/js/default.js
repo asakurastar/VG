@@ -4,25 +4,29 @@ $(function() {
 
 	// Search
 	$search
-	.data( 'title', $search.attr('title') )
-	.val( $search.data('title') )
-	.on('focus', function() {
-		if ( $(this).val() == $(this).data('title') ) {
-			$(this).val('');
-		}
-	})
-	.on('blur', function() {
-		if ( '' == $(this).val() ) {
-			$(this).val( $(this).data('title') );
-		}
-	});
+		.data( 'title', $search.attr('title') )
+		.val( $search.data('title') )
+		.on('focus', function() {
+			if ( $(this).val() == $(this).data('title') ) {
+				$(this).val('');
+			}
+		})
+		.on('blur', function() {
+			if ( '' == $(this).val() ) {
+				$(this).val( $(this).data('title') );
+			}
+		})
+		.on('keyup', function(e) {
+			if ( 13 == e.which && '' != $(this).val() && $(this).val() != $(this).data('title') ) {
+				search( $(this).val() );
+			}
+		});
 
 	$submit.on('click', function(e) {
 		e.preventDefault();
 		search( $search.val() );
 	})
 	search('all');
-
 	// Navigation
 	$('a.nav').on('click', function(e) {
 		e.preventDefault();
