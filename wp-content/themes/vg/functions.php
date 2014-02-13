@@ -6,12 +6,6 @@ function remove_admin_menus() {
 }
 add_action( 'admin_menu', 'remove_admin_menus' );
 
-// Adiciona suporte para resumo de texto em páginas
-function add_page_excerpts() {
-	add_post_type_support( 'page', 'excerpt' );
-}
-add_action( 'init', 'add_page_excerpts' );
-
 // Registra post type para cursos
 function register_post_type_cursos() {
 	$labels = array(
@@ -97,6 +91,24 @@ function post_filter_where( $where, &$wp_query ) {
 	return $where;
 }
 add_filter( 'posts_where', 'post_filter_where', 10, 2 );
+
+// Remove visualmente a capacidade de editar o permalink/campo código em polos e cursos
+function disable_polo_curso_edit_codigo() {
+	$screen = get_current_screen();
+	if ( isset($screen->post_type) && in_array( $screen->post_type, array('cursos', 'polos') ) ) {
+?>
+	<style>
+		#edit-slug-box { display: none !important; }
+	</style>
+	<script>
+		jQuery(document).ready(function() {
+			jQuery('#acf-field-codigo').attr({'readonly' : true, 'disabled' : true });
+		});
+	</script>
+<?php
+	}
+}
+add_action( 'admin_head', 'disable_polo_curso_edit_codigo' );
 
 // Ajax para buscar cursos pesquisados
 function ajax_cursos() {
@@ -361,68 +373,52 @@ function save_inscricao() {
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
-		'nome'               => 'Nome completo',
-		'rg'                 => 'RG',
-		'uf'                 => 'UF',
-		'orgao'              => 'Órgão emissor',
-		'cpf'                => array(
-			'name'  => 'CPF',
-			'mask'  => '/^((\d){3}\.){2}(\d){3}\-(\d){2}$/',
-			'error' => 'O campo %name% deve conter pontuação'
+		'nome',
+		'rg',
+		'orgao',
+		'cpf'        => array(
+			'mask'   => '/^((\d){3}\.){2}(\d){3}\-(\d){2}$/'
 		),
-		'nascimento'         => array(
-			'name'   => 'Data de nascimento',
-			'mask'   => '/^((\d){2}\/){2}(\d){4}$/',
-			'error'  => 'O campo %name% deve estar no formato DD/MM/AAAA'
+		'nascimento' => array(
+			'mask'   => '/^((\d){2}\/){2}(\d){4}$/'
 		),
-		'sexo'               => 'Sexo',
-		'cep'                => array(
-			'name'  => 'CEP',
-			'mask'  => '/^(\d){2}\.(\d){3}\-(\d){3}$/',
-			'error' => 'O campo %name% deve estar no formato 00.000-000'
+		'cep'        => array(
+			'mask'   => '/^(\d){2}\.(\d){3}\-(\d){3}$/',
 		),
-		'endereco'           => 'Endereço',
-		'numero'             => 'Nº',
- 		'complemento'        => 'Complemento',
-		'bairro'             => 'Bairro',
-		'cidade'             => 'Cidade'
-		//'telefone-fixo'      => 'Telefone (Fixo)',
-		//'telefone-celular'   => 'Telefone (Celular)',
-		/*'email'              => array(
-			'name'  => 'E-Mail',
-			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
-			'error' => 'O campo %name% não parece ser um endereço válido'
-		)*/
+		'endereco',
+		'numero',
+ 		'complemento',
+		'bairro',
+		'cidade',
+		'telefone_fixo',
+		'telefone_celular',
+		'email'      => array(
+			'mask'   => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/'
+		)
 	);
 
 	if ( isset($_POST['inscricao']) ) {
 		$messagesInscricao = array();
 
-		array_map('sanitize_text_field', $_POST);
-
 		foreach( $fields as $k => $v ) {
-			$name  = is_array($v) ? $v['name'] : $v;
-			$error = "O campo {$name} deve ser preenchido e válido";
 
+			// Normaliza chave/valor do campo
+			$k = ( !is_array($v) ) ? $v : $k; 
+
+			// Validações
 			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
-				array_push( $messagesInscricao,  $error );
+				array_push( $messagesInscricao, $k );
 			}
+			elseif ( is_array($v) && isset( $v['mask'] ) && !preg_match( $v['mask'], $_POST[ $k ] ) ) {
 
-			elseif ( isset( $v['mask'] ) && !empty( $v['mask'] ) ) {
-				if ( !preg_match( $v['mask'], $_POST[ $k ] ) ) {
-					$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-					array_push( $messagesInscricao,  $error );
+				// Evita adicionar novamente o mesmo campo (caso já exista)
+				if ( !in_array( $k, $messagesInscricao ) ) {
+					array_push( $messagesInscricao, $k );
 				}
 			}
 		}
 
-		if ( count($messagesInscricao) > 0 ) {
-			if ( isset($_POST['curso']) ) {
-				$messagesInscricao['id'] = $_POST['curso'];
-			}
-		}
-
-		if ( 0 == count($messagesInscricao) ) {
+		if ( count($messagesInscricao) == 0 ) {
 			if ( $id = wp_insert_post(array(
 				'post_type'   => 'inscricoes',
 				'post_title'  => $_POST['nome'],
@@ -453,40 +449,32 @@ function save_interesse() {
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
-		'nome'               => 'Nome completo',
-		'telefone-fixo'      => 'Telefone (Fixo)',
-		'telefone-celular'   => 'Telefone (Celular)',
-		'email'              => array(
-			'name'  => 'E-Mail',
-			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
-			'error' => 'O campo %name% não parece ser um endereço válido'
+		'nome',
+		'telefone_fixo',
+		'telefone_celular',
+		'email'      => array(
+			'mask'   => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/'
 		)
 	);
 
 	if ( isset($_POST['interesse']) ) {
 		$messagesInteresse = array();
 
-		array_map('sanitize_text_field', $_POST);
-
 		foreach( $fields as $k => $v ) {
-			$name  = is_array($v) ? $v['name'] : $v;
-			$error = "O campo {$name} deve ser preenchido e válido";
 
+			// Normaliza chave/valor do campo
+			$k = ( !is_array($v) ) ? $v : $k; 
+
+			// Validações
 			if ( !isset($_POST[ $k ]) || empty($_POST[ $k ]) ) {
-				array_push( $messagesInteresse,  $error );
+				array_push( $messagesInteresse, $k );
 			}
+			elseif ( is_array($v) && isset( $v['mask'] ) && !preg_match( $v['mask'], $_POST[ $k ] ) ) {
 
-			elseif ( isset( $v['mask'] ) && !empty( $v['mask'] ) ) {
-				if ( !preg_match( $v['mask'], $_POST[ $k ] ) ) {
-					$error = isset( $v['error'] ) ? str_replace('%name%', $name, $v['error']) : $error;
-					array_push( $messagesInteresse,  $error );
+				// Evita adicionar novamente o mesmo campo (caso já exista)
+				if ( !in_array( $k, $messagesInteresse ) ) {
+					array_push( $messagesInteresse, $k );
 				}
-			}
-		}
-
-		if ( count($messagesInteresse) > 0 ) {
-			if ( isset($_POST['curso']) ) {
-				$messagesInteresse['id'] = $_POST['curso'];
 			}
 		}
 
@@ -594,8 +582,8 @@ function export_inscricoes_csv() {
 }
 function export_bulk_admin_footer() {
 	global $post_type;
-	
-	if ( isset($post_type) && 'inscricoes' == $post_type ) {
+
+	if ( ( !isset($_GET['post_status']) || 'trash' != $_GET['post_status'] ) && isset($post_type) && 'inscricoes' == $post_type ) {
 	?>
 		<script type="text/javascript">
 			(function($) {
