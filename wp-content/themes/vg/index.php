@@ -37,6 +37,7 @@
 		<p class="chromeframe">Você está usando um browser <strong>ultrapassado</strong>. Por favor <a href="http://browsehappy.com/">atualize o browser</a> ou <a href="http://www.google.com/chromeframe/?redirect=true">ative o Frame do Google Chrome</a> para melhorar a experiência.</p>
 		<![endif]-->
 
+		<script>var base_url = '<?php echo get_bloginfo("wpurl"); ?>/'; </script>
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/js/jquery.fancybox.js"></script>
@@ -44,6 +45,25 @@
 		<script src="<?php echo get_template_directory_uri(); ?>/js/default.js"></script>
 
 		<?php wp_head(); ?>
+
+		<?php 
+		// Carrega os detalhes do curso quando a página atual for post single e não conter erros de validação
+		if ( 
+			is_single() && ( 
+				( !isset($messagesInscricao) && !isset($messagesInteresse) ) ||
+				( 
+					( isset($messagesInscricao) && count($messagesInscricao) == 0 ) &&
+					( isset($messagesInteresse) && count($messagesInteresse) == 0 ) 
+				)
+			)
+		) : 
+		?>
+		<script>
+			$(function() {
+				loadCurso('<?php the_ID(); ?>');
+			});
+		</script>
+		<?php endif; ?>
 
 		<?php if ( isset($messagesInscricao) && count($messagesInscricao) > 0 ) :?>
 		<script>

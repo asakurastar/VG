@@ -51,7 +51,7 @@ $(function() {
 function search( value ) {
 	var selector   = '#accordion';
 	var $accordion = $( selector );
-	$.get('wp-admin/admin-ajax.php', { action : 'cursos', search : value }, function(data) {
+	$.get( base_url + 'wp-admin/admin-ajax.php', { action : 'cursos', search : value }, function(data) {
 		if ( data ) {
 			var $html = '';
 
@@ -63,7 +63,8 @@ function search( value ) {
 				if ( typeof(v) == "object" ) {
 					$html += '<ul>';
 					$.each(v, function( kk, vv ) {
-						$html += '<li><a href="javascript:void(0);" onclick="loadCurso(' + vv.id + ');">' + vv.title + ' <span>[' + vv.titulacao + ']</span></a></li>';
+						//$html += '<li><a href="javascript:void(0);" onclick="loadCurso(' + vv.id + ');">' + vv.title + ' <span>[' + vv.titulacao + ']</span></a></li>';
+						$html += '<li><a href="' + base_url + vv.slug + '/' + vv.name + '" onclick="loadCurso(' + vv.id + ');">' + vv.title + ' <span>[' + vv.titulacao + ']</span></a></li>';
 					});
 					$html += '</ul><div style="clear: both;"></div>';
 				}
@@ -75,11 +76,11 @@ function search( value ) {
 				heightStyle : "content"
 			});
 		}
-	},'json');
+	},'json' );
 }
 
 function loadCurso( id ) {
-	$.get('wp-admin/admin-ajax.php', { action : 'curso', id : id }, function(data) {
+	$.get( base_url + 'wp-admin/admin-ajax.php', { action : 'curso', id : id }, function(data) {
 		var selector      = '#detalhecurso';
 		var curso         = 0;
 		var $detalhes     = $( selector );
@@ -151,5 +152,5 @@ function loadCurso( id ) {
 
 		}
 
-	}, 'json');
+	}, 'json' );
 }

@@ -163,7 +163,8 @@ function ajax_cursos() {
 						'id'        => $post->ID,
 						'name'      => $post->post_name,
 						'title'     => $post->post_title,
-						'titulacao' => get_field( 'nivel', $post->ID )
+						'titulacao' => get_field( 'nivel', $post->ID ),
+						'slug'      => sanitize_title( get_field( 'nivel_portal', $post->ID ) )
 					) );
 				}
 			}
@@ -609,3 +610,13 @@ function export_bulk_admin_footer() {
 }
 add_action( 'init',                  'export_inscricoes_csv'    );
 add_action( 'admin_footer-edit.php', 'export_bulk_admin_footer' );
+
+// Adiciona rewrite rule para aceitar urls amigáveis de cursos
+function add_curso_rules() {
+	add_rewrite_rule(  
+		'([^/]+)/([^/]+)/?',  
+		'index.php?post_type=cursos&name=$matches[2]',  
+		'top'
+	); 
+}
+add_action( 'init', 'add_curso_rules' );
