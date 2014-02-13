@@ -6,6 +6,81 @@ function remove_admin_menus() {
 }
 add_action( 'admin_menu', 'remove_admin_menus' );
 
+// Registra widget de dashboard para exibição de estatísticas Você Graduado
+function register_stats_dashboard() {
+	wp_add_dashboard_widget(
+		'vg_dashboard_widget',
+		'Estatísticas',
+		'stats_dashboard_widget'
+	);
+}
+function stats_dashboard_widget() {
+
+	// Cursos
+	$totalCursos = count( get_posts( array( 'post_type' => 'cursos', 'post_status' => 'publish', 'posts_per_page' => -1 ) ) );
+	$cursoText   = ( $totalCursos > 1 )  ? 'Cursos' : 'Curso';
+
+	// Polos
+	$totalPolos = count( get_posts( array( 'post_type' => 'polos', 'post_status' => 'publish', 'posts_per_page' => -1 ) ) );
+	$poloText   = ( $totalPolos > 1 )  ? 'Polos' : 'Polo';	
+
+	// Inscrições
+	$totalInscricoes = count( get_posts( array( 'post_type' => 'inscricoes', 'post_status' => 'publish', 'posts_per_page' => -1 ) ) );
+	$inscricaoText   = ( $totalInscricoes > 1 )  ? 'Inscrições' : 'Inscrição';	
+
+	// Interesses
+	$totalInteresses = count( get_posts( array( 'post_type' => 'interesses', 'post_status' => 'publish', 'posts_per_page' => -1 ) ) );
+	$interesseText   = ( $totalInteresses > 1 )  ? 'Interesses' : 'Interesse';
+?>
+	<div class="main">
+		<ul>
+			<li class="count">
+				<a href="edit.php?post_type=cursos"><?php echo $totalCursos; ?> <?php echo $cursoText; ?></a>
+			</li>			
+			<li class="count">
+				<a href="edit.php?post_type=polos"><?php echo $totalPolos; ?> <?php echo $poloText; ?></a>
+			</li>			
+			<li class="count">
+				<a href="edit.php?post_type=inscricoes"><?php echo $totalInscricoes; ?> <?php echo $inscricaoText; ?></a>
+			</li>			
+			<li class="count">
+				<a href="edit.php?post_type=interesses"><?php echo $totalInteresses; ?> <?php echo $interesseText; ?></a>
+			</li>
+		</ul>
+		<div style="clear: both;"></div>
+	</div>
+<?php
+}
+function wp_enqueue_stats() {
+?>
+	<style type="text/css">
+		#vg_dashboard_widget li {
+			width: 50%;
+			float: left;
+			margin-bottom: 10px;
+		}
+		#vg_dashboard_widget li a:before { 
+			content: '\f159';
+			font: 400 20px/1 dashicons;
+			speak: none;
+			color: #888;
+			display: block;
+			float: left;
+			margin: 0 5px 0 0;
+			padding: 0;
+			text-indent: 0;
+			text-align: center;
+			position: relative;
+			-webkit-font-smoothing: antialiased;
+			text-decoration: none !important;
+		}
+		#vg_dashboard_widget .count a:before { content: '\f109'; }
+	</style>
+<?php
+}
+add_action( 'admin_head' ,        'wp_enqueue_stats'         );
+add_action( 'wp_dashboard_setup', 'register_stats_dashboard' );
+
 // Registra post type para cursos
 function register_post_type_cursos() {
 	$labels = array(
