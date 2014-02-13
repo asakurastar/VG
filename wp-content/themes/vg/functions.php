@@ -385,20 +385,19 @@ function save_inscricao() {
 		'numero'             => 'Nº',
  		'complemento'        => 'Complemento',
 		'bairro'             => 'Bairro',
-		'cidade'             => 'Cidade',
-		'telefone-fixo'      => 'Telefone (Fixo)',
-		'telefone-celular'   => 'Telefone (Celular)',
-		'email'              => array(
+		'cidade'             => 'Cidade'
+		//'telefone-fixo'      => 'Telefone (Fixo)',
+		//'telefone-celular'   => 'Telefone (Celular)',
+		/*'email'              => array(
 			'name'  => 'E-Mail',
 			'mask'  => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/',
 			'error' => 'O campo %name% não parece ser um endereço válido'
-		)
+		)*/
 	);
 
-	// Mensagens de erro, sucesso, etc
-	$messagesInscricao = array();
-
 	if ( isset($_POST['inscricao']) ) {
+		$messagesInscricao = array();
+
 		array_map('sanitize_text_field', $_POST);
 
 		foreach( $fields as $k => $v ) {
@@ -464,10 +463,9 @@ function save_interesse() {
 		)
 	);
 
-	// Mensagens de erro, sucesso, etc
-	$messagesInteresse = array();
-
 	if ( isset($_POST['interesse']) ) {
+		$messagesInteresse = array();
+
 		array_map('sanitize_text_field', $_POST);
 
 		foreach( $fields as $k => $v ) {
