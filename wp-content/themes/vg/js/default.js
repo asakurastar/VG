@@ -27,6 +27,7 @@ $(function() {
 		search( $search.val() );
 	})
 	search('all');
+
 	// Navigation
 	$('a.nav').on('click', function(e) {
 		e.preventDefault();
@@ -50,6 +51,7 @@ $(function() {
 			if ( numeros.length == 10 ) { $(this).mask("(99) 9999-9999?9", { placeholder : "_" }); }
 		});
 	});
+
 });
 
 function search( value ) {
