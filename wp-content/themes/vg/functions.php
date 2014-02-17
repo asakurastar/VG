@@ -167,24 +167,6 @@ function post_filter_where( $where, &$wp_query ) {
 }
 add_filter( 'posts_where', 'post_filter_where', 10, 2 );
 
-// Remove visualmente a capacidade de editar o permalink/campo código em polos e cursos
-function disable_polo_curso_edit_codigo() {
-	$screen = get_current_screen();
-	if ( isset($screen->post_type) && in_array( $screen->post_type, array('cursos', 'polos') ) ) {
-?>
-	<style>
-		#edit-slug-box { display: none !important; }
-	</style>
-	<script>
-		jQuery(document).ready(function() {
-			jQuery('#acf-field-codigo').attr({'readonly' : true, 'disabled' : true });
-		});
-	</script>
-<?php
-	}
-}
-add_action( 'admin_head', 'disable_polo_curso_edit_codigo' );
-
 // Ajax para buscar cursos pesquisados
 function ajax_cursos() {
 	global $wpdb;
@@ -443,9 +425,8 @@ add_action('manage_interesses_posts_custom_column', 'manage_columns_interesse', 
 
 // Captura e salva os dados do formulário de inscrição
 function save_inscricao() {
-
-	// Expõe $messagesInscricao para ser usado em qualquer lugar
 	global $messagesInscricao;
+	global $saved;
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
@@ -510,10 +491,8 @@ function save_inscricao() {
 				foreach( $_POST as $k => $v ) {
 					update_post_meta( $id, $k, $v );
 				}
+				$saved = true;
 				?>
-				<script>
-					alert('Sua inscrição foi realizada com sucesso');
-				</script>
 				<?php
 			}
 		}
@@ -523,9 +502,8 @@ add_action( 'init', 'save_inscricao' );
 
 // Captura e salva os dados do formulário de interesse
 function save_interesse() {
-
-	// Expõe $messagesInteresse para ser usado em qualquer lugar
 	global $messagesInteresse;
+	global $saved;
 
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
@@ -570,10 +548,8 @@ function save_interesse() {
 				foreach( $_POST as $k => $v ) {
 					update_post_meta( $id, $k, $v );
 				}
+				$saved = true;
 				?>
-				<script>
-					alert('Seu interesse foi adicionado com sucesso');
-				</script>
 				<?php
 			}
 		}

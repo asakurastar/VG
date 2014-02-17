@@ -105,6 +105,14 @@
 		</script>
 		<?php endif; ?>
 
+		<?php if ( isset( $saved ) && $saved ) : ?>
+		<script>
+		$(function() {
+			$.fancybox.open('#obrigado');
+		});
+		</script>
+		<?php endif; ?>
+
 	</head>
 
 	<body <?php body_class(); ?>>
@@ -574,6 +582,15 @@
 			</div>
 		</div>
 		<!-- End: Patrocinio -->
+
+		<!-- Obrigado -->
+		<div id="obrigado" style="width:780px; display:none;">
+			<div class="header" style="margin: 10px;">
+				<h2>Obrigado</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dictum nunc felis. Etiam pharetra odio eu ante ultrices, nec egestas tortor luctus.</p>
+			</div>
+		</div>
+		<!-- End: Obrigado -->
 
 		<!-- Fundo -->
 		<footer>
