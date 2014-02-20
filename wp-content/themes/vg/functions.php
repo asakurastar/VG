@@ -180,7 +180,9 @@ function ajax_cursos() {
 		$results = $wpdb->get_results("
 			SELECT DISTINCT (meta_value)
 			FROM wp_postmeta
-			WHERE meta_key = 'nivel_portal'
+			WHERE 1=1
+				AND meta_key = 'nivel_portal'
+				AND meta_value != 'Pós-Graduação e MBA'
 		");
 		if ( is_array($results) && count($results) > 0 ) {
 			foreach($results as $result) {
@@ -267,6 +269,10 @@ function add_new_columns_cursos( $columns ) {
 	$columns['nivel']        = 'Nível';
 	$columns['nivel_portal'] = 'Nível Portal';
 
+	if ( isset($columns['wpseo-title'])    ) { unset($columns['wpseo-title']); }
+	if ( isset($columns['wpseo-metadesc']) ) { unset($columns['wpseo-metadesc']); }
+	if ( isset($columns['wpseo-focuskw'])  ) { unset($columns['wpseo-focuskw']); }
+
 	return $columns;
 }
 function manage_columns_cursos( $column_name, $id ) {
@@ -282,8 +288,8 @@ function manage_columns_cursos( $column_name, $id ) {
 		default: break;
 	}
 }
-add_filter('manage_edit-cursos_columns',        'add_new_columns_cursos'      );
-add_action('manage_cursos_posts_custom_column', 'manage_columns_cursos', 10, 2);
+add_filter( 'manage_edit-cursos_columns',        'add_new_columns_cursos'      );
+add_action( 'manage_cursos_posts_custom_column', 'manage_columns_cursos', 10, 2);
 
 /*
  *************************************************************************************************
@@ -351,7 +357,7 @@ function register_post_type_interesses() {
 		'show_ui'             => true,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => true,
-		'show_in_admin_bar'   => true,
+		'show_in_admin_bar'   => false,
 		'menu_position'       => 5,
 		'can_export'          => true,
 		'has_archive'         => true,
