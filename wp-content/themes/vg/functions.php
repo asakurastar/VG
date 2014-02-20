@@ -262,6 +262,29 @@ function ajax_load_curso() {
 add_action( 'wp_ajax_nopriv_curso', 'ajax_load_curso' );
 add_action( 'wp_ajax_curso',        'ajax_load_curso' );
 
+// Adiciona novas colunas no post type cursos
+function add_new_columns_cursos( $columns ) {
+	$columns['nivel']        = 'Nível';
+	$columns['nivel_portal'] = 'Nível Portal';
+
+	return $columns;
+}
+function manage_columns_cursos( $column_name, $id ) {
+	switch ( $column_name ) {
+		case 'nivel' : {
+			echo get_field( 'nivel', $id );
+			break;
+		}		
+		case 'nivel_portal' : {
+			echo get_field( 'nivel_portal', $id );
+			break;
+		}
+		default: break;
+	}
+}
+add_filter('manage_edit-cursos_columns',        'add_new_columns_cursos'      );
+add_action('manage_cursos_posts_custom_column', 'manage_columns_cursos', 10, 2);
+
 /*
  *************************************************************************************************
  * Controle de inscrições / Interesses
@@ -492,8 +515,6 @@ function save_inscricao() {
 					update_post_meta( $id, $k, $v );
 				}
 				$saved = true;
-				?>
-				<?php
 			}
 		}
 	}
@@ -549,8 +570,6 @@ function save_interesse() {
 					update_post_meta( $id, $k, $v );
 				}
 				$saved = true;
-				?>
-				<?php
 			}
 		}
 	}
