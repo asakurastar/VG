@@ -307,13 +307,13 @@ header .selo {
 
 .block.vantagens ul li {
 	width: 50%;
-	min-height: 75px;
+	min-height: 85px;
 	padding: 0 10px 0 50px;
 	margin: 25px 0 0 0;
 	display: inline-block;
 	float: left;
 	font-family: sitka;
-	font-size: 20px;
+	font-size: 18px;
 	position: relative;
 }
 
@@ -370,12 +370,14 @@ header .selo {
 }
 
 .block.cursos .search input[type="text"] {
+	width: 301px;
 	font-family: sitka;
 	color: #007dbf;
 	font-size: 25px;
 	padding: 8px 15px;
 	border: 0;
 	background: none;
+	float: left;
 }
 
 .block.cursos .search input[type="submit"] {
@@ -384,6 +386,7 @@ header .selo {
 	border: 0;
 	background: url(img/ico_search.png) no-repeat;
 	cursor: pointer;
+	float: left;
 }
 
 .block.cursos #accordion h3 {
@@ -552,6 +555,10 @@ header .selo {
 	line-height: 27px;
 	margin: 0 0 25px 0;
 }
+
+.block.pravaler p a {
+	color: #fff;
+	text-decoration: underline; }
 
 .block.pravaler ul li {
 	font-family: sitka;
