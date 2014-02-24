@@ -110,7 +110,7 @@ body { font-family: "Arial"; font-size: 14px; color: #808080; }
 
 .block { width: 100%; clear: both; display: block; }
 
-.col { width: 50%; float: left; display: inline-block; }
+.col { width: 47%; float: left; display: inline-block; margin: 0 30px 0 0; }
 
 
 
@@ -139,14 +139,19 @@ header .logo {
 
 header nav {
 	float: right;
-	margin: 30px 0 0 0;
+	margin: 15px 0 0 0;
+	padding: 10px 15px;
+	background:#ef6910;
+	border-radius: 4px;
+	border: 1px solid #ef6910;
+	border-bottom: 3px solid #cb5b10;
 }
 
 header nav li {
 	display: inline-block;
 	float: left;
-	margin: 0 0 0 20px;
-	padding: 0 0 0 24px;
+	margin: 0 0 0 8px;
+	padding: 0 0 0 12px;
 	background: url(img/bullet.png) no-repeat left; 
 }
 
@@ -157,8 +162,8 @@ header nav li:first-child {
 
 header nav li a {
 	font-family: museo300;
-	color: #ef6910;
-	font-size: 22px;
+	color: #fff;
+	font-size: 16px;
 }
 
 header nav li a:hover {	background: url(img/nav-decoration.png) repeat-x bottom; }
@@ -179,11 +184,11 @@ header h3 {
 }
 
 header h4 {
-	font-family: museo100;
-	font-size: 20px;
-	color: #828282;
+	font-family: museo700;
+	font-size: 30px;
+	color: #ef6910;
 	display: block;
-	margin: 20px 0 40px 0;
+	margin: 50px 0 30px 0;
 }
 
 header .selo {
@@ -205,7 +210,7 @@ header .selo {
 /*****************************************************************/
 
 .block.aunisul {
-	background: #fff;
+	background: url(img/background_ead.jpg) no-repeat bottom #fff;
 	padding: 95px 0;
 }
 
@@ -229,6 +234,7 @@ header .selo {
 	padding: 95px 0;
 	color: #fff;
 	overflow: hidden;
+	display: none;
 }
 
 .block.oquee h2 {
@@ -282,13 +288,13 @@ header .selo {
 /*****************************************************************/
 
 .block.vantagens {
-	background: url(img/background_gray.jpg) repeat-y top;
+	background: url(img/background_gray2.jpg) no-repeat bottom;
 	padding: 95px 0;
 	overflow: hidden;
 }
 
 .block.vantagens .limit {
-	padding: 0 0 0 350px;
+	padding: 0 0 0 290px;
 }
 
 .block.vantagens h2 {
@@ -332,14 +338,22 @@ header .selo {
 	overflow: hidden;
 }
 
+.block.cursos .limit { position: relative; }
+
+.block.cursos h3 {
+	font-family: museo100;
+	font-weight: 100;
+	color: #011369;
+	font-size: 25px;
+	margin: 0 0 10px 0;
+}
+
 .block.cursos h2 {
-	width: 50%;
 	font-family: museo100;
 	font-weight: 100;
 	color: #011369;
 	font-size: 52px;
 	margin: 0 0 35px 0;
-	float: left;
 }
 
 .block.cursos h2 strong {
@@ -349,7 +363,9 @@ header .selo {
 
 .block.cursos .search {
 	width: 321px;
-	float: right;
+	position: absolute;
+	right: 0;
+	top: 0;
 	background: url(img/background_search.png) no-repeat bottom;
 }
 
@@ -450,7 +466,7 @@ header .selo {
 .block.polos h3 {
 	font-family: museo500;
 	font-weight: 300;
-	color: #767676;
+	color: #011369;
 	font-size: 20px;
 	margin: 35px 0 15px 0;
 }
@@ -461,7 +477,7 @@ header .selo {
 }
 
 .block.polos ul li {
-	width: 47%;
+	width: 99%;
 	display: inline-block;
 	float: left;
 	margin: 0 20px 20px 0;
@@ -495,6 +511,18 @@ header .selo {
 }
 
 .block.pravaler h2 {
+	font-family: museo100;
+	color: #fff;
+	font-size: 45px;
+	font-weight: 100;
+	text-transform: uppercase;
+}
+
+.block.pravaler h2 strong {
+	font-family: museo500;
+}
+
+.block.pravaler h3 {
 	height: 75px;
 	background: url(img/logo_pravaler.png) no-repeat;
 	font-family: museo300;
@@ -504,7 +532,7 @@ header .selo {
 	margin: 0 0 45px 0;
 }
 
-.block.pravaler h2 strong {
+.block.pravaler h3 strong {
 	display: block;
 	font-family: museo700;
 	font-size: 20px;
@@ -512,7 +540,7 @@ header .selo {
 	margin: 0 0 5px 0;
 }
 
-.block.pravaler h3 {
+.block.pravaler h4 {
 	font-family: museo700;
 	font-size: 20px;
 	margin: 0 0 20px 0;
@@ -553,7 +581,7 @@ header .selo {
 .block.patrocinio h2 {
 	font-family: museo100;
 	font-size: 18px;
-	color: #ffd504;
+	color: #f57921;
 }
 
 .block.patrocinio h2 strong {
@@ -566,35 +594,18 @@ header .selo {
 .block.patrocinio ul { margin: 25px 0 0 0; }
 
 .block.patrocinio ul li {
-	width: 50%;
 	display: inline-block;
 	float: left;
 }
 
-.block.patrocinio ul li.jovempan {
-	height: 76px;
-	background: url(img/logo_jovempan.png) no-repeat;
-	padding: 0 0 0 100px;
-}
-
 .block.patrocinio ul li.jovempan a {
-	width: 115px;
-	height: auto;
-	background: #ffd504;
-	border-radius: 4px;
-	border-bottom: 2px solid #f57921;
+	width: 88px;
+	height: 86px;
+	margin: 0 40px 0 0;
 	display: block;
-	font-family: sitka;
-	font-size: 16px;
-	line-height: 24px;
-	text-align: center;
-	color: #ad4801;
-	margin: 10px 0 0 0;
-}
-
-.block.patrocinio ul li.jovempan a:hover {
-	background: #f57921;
-	color: #fff;
+	outline: none;
+	text-indent: -99999px;
+	background: url(img/logo_jovempan.png) no-repeat;
 }
 
 .block.patrocinio ul li.vocestore {
@@ -604,6 +615,7 @@ header .selo {
 .block.patrocinio ul li.vocestore a {
 	width: 212px;
 	height: 76px;
+	margin: 0 0 0 40px;
 	float: right;
 	display: block;
 	outline: none;
@@ -634,21 +646,20 @@ footer .logo {
 	margin: 0 0 30px 0;
 }
 
-footer ul {
-	padding: 30px 0 0 0;
-	border-top: 1px solid #4c4c4c;
-}
+footer ul { text-align: center; }
 
 footer ul li {
-	display: inline-block;
-	float: left;
 	font-family: sitka;
 	color: #9f9f9f;
 	font-size: 20px;
-	margin: 0 0 0 70px;
 }
 
-footer ul li:first-child { margin: 0 0 0 200px; }
+footer ul li a {
+	font-family: sitka;
+	color: #9f9f9f;
+	font-size: 20px;
+	text-decoration: none;
+}
 
 footer ul li .facebook {
 	width: 28px;
@@ -932,20 +943,19 @@ footer ul li .blog {
 #inscricao fieldset input[type="submit"]:hover { color: #fff; background:#cb5b10; border-color: #cb5b10; }
 
 #inscricao .message {
-	margin: 0 20px;
+	padding: 10px 35px;
 }
 
 #inscricao .message.error {
 	background-color: #ff0000;
-	border: 1px solid #880000;
 }
 #inscricao .message.success {
 	background-color: #00ff00;
-	border: 1px solid #008800;
 }
 #inscricao .message p {
-	margin: 5px;
-	padding: 0px;
+	font-family: sitka;
+	font-size: 18px;
+	padding: 5px;
 	color: #ffffff;
 }
 

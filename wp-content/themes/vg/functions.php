@@ -457,6 +457,8 @@ function save_inscricao() {
 	global $messagesInscricao;
 	global $saved;
 
+	@session_start();
+
 	// Campos obrigatórios ( Campo => nome ou array( nome, máscara de validação, mensagem de erro ) )
 	$fields = array(
 		'nome',
@@ -521,6 +523,9 @@ function save_inscricao() {
 					update_post_meta( $id, $k, $v );
 				}
 				$saved = true;
+				$_SESSION['saved'] = $saved;
+				header("Location: " . get_bloginfo('wpurl') . "/inscricao/concluida");
+				die();
 			}
 		}
 	}
@@ -694,7 +699,7 @@ add_action( 'admin_footer-edit.php', 'export_bulk_admin_footer' );
 // Adiciona rewrite rule para aceitar urls amigáveis de cursos
 function add_curso_rules() {
 	add_rewrite_rule(  
-		'([^/]+)/([^/]+)/?',  
+		'([^/]+)/([^/concluida]+)/?',  
 		'index.php?post_type=cursos&name=$matches[2]',  
 		'top'
 	); 
