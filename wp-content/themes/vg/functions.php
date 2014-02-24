@@ -699,7 +699,7 @@ add_action( 'admin_footer-edit.php', 'export_bulk_admin_footer' );
 // Adiciona rewrite rule para aceitar urls amigáveis de cursos
 function add_curso_rules() {
 	add_rewrite_rule(  
-		'([^/]+)/([^/concluida]+)/?',  
+		'([^/]+)/([^/]+)/?',  
 		'index.php?post_type=cursos&name=$matches[2]',  
 		'top'
 	); 

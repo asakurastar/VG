@@ -458,6 +458,8 @@
 										$polos = get_posts(array(
 											'post_type'      => 'polos',
 											'post_status'    => 'publish',
+											'orderby'        => 'name',
+											'order'          => 'ASC',
 											'posts_per_page' => -1
 										));
 										foreach($polos as $polo) :
