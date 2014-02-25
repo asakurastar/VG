@@ -9,7 +9,11 @@
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 	<head>
+		<?php if ( is_404() ) : ?>
+		<title>Você Graduado | Educação à Distância</title>
+		<?php else: ?>
 		<title><?php wp_title( '|', true, 'right' ); ?></title>
+		<?php endif; ?>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
