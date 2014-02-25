@@ -448,6 +448,8 @@
 										$cursos = get_posts(array(
 											'post_type'      => 'cursos',
 											'post_status'    => 'publish',
+											'orderby'        => 'name',
+											'order'          => 'ASC',
 											'posts_per_page' => -1
 										));
 										foreach($cursos as $curso) :
