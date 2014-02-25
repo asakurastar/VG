@@ -22,7 +22,7 @@ define('DB_NAME', 'db_vocegraduado');
 define('DB_USER', 'root');
 
 /** Senha do banco de dados MySQL */
-define('DB_PASSWORD', 'labz1234');
+define('DB_PASSWORD', 'fodase');
 
 /** nome do host do MySQL */
 define('DB_HOST', 'localhost');

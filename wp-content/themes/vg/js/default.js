@@ -65,7 +65,7 @@ function search( value ) {
 
 			$accordion.find('*').remove();
 			$.each( data, function( k, v ) {
-				$html += '<h3>' + k + '</h3><div>';
+				$html += '<h3>' + k + '</h3><div class="ui-accordion-content">';
 				if ( typeof(v) == "object" ) {
 					$html += '<ul>';
 					$.each(v, function( kk, vv ) {
@@ -78,9 +78,9 @@ function search( value ) {
 			});
 
 			$('.block.cursos .limit').append( $('<div id="accordion" />').append( $html ) );
-			$('#accordion').accordion({
-				heightStyle : "content"
-			});
+			/*$('#accordion').accordion({
+				heightStyle : "content",
+			});*/
 		}
 	},'json' );
 }
