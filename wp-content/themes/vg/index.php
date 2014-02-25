@@ -165,7 +165,8 @@
 				?>
 				<br class="clear" />
 				<a href="#cursos" class="nav btn-secundary">Conheça os cursos</a>
-				<a href="#inscricao" class="fancybox-inscricao btn">Inscreva-se</a>
+				<!--<a href="#inscricao" class="fancybox-inscricao btn">Inscreva-se</a>-->
+				<a href="<?php echo get_bloginfo('wpurl'); ?>/inscricao" class="btn">Inscreva-se</a>
 				<!-- End: 50 anos - Destaque -->
 			</div>
 		</header>

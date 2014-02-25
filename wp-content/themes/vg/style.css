@@ -1092,3 +1092,29 @@ footer ul li .blog {
 	color: #ffffff;
 }
 
+
+
+/******************************************************************
+* FANCYBOX: INSCRIÇÃO FINALIZADA
+/*****************************************************************/
+
+#obrigado .header {
+	padding: 35px;
+	display: block;
+	clear: both;
+	background: #f5f5f5;
+	border-radius: 10px 10px 0 0;
+}
+
+#obrigado .header h2 {
+	font-family: museo300;
+	font-size: 35px;
+	color: #011369;
+}
+
+#obrigado .header p {
+	font-family: sitka;
+	font-size: 18px;
+	color: #767676;
+	margin: 20px 0 0 0;
+}

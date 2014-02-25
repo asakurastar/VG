@@ -1,4 +1,7 @@
 <?php
+/** Enable W3 Total Cache */
+define('WP_CACHE', true); // Added by W3 Total Cache
+
 /** 
  * As configurações básicas do WordPress.
  *
@@ -22,7 +25,7 @@ define('DB_NAME', 'db_vocegraduado');
 define('DB_USER', 'root');
 
 /** Senha do banco de dados MySQL */
-define('DB_PASSWORD', 'fodase');
+define('DB_PASSWORD', 'labz1234');
 
 /** nome do host do MySQL */
 define('DB_HOST', 'localhost');
