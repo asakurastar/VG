@@ -226,7 +226,8 @@
 					<div class="header">
 						<h2></h2>
 						<a href="#interesse" class="interesse btn-secundary_small">Estou interessado</a>
-						<a href="javascript:void(0);" class="inscricao btn_small">Inscreva-se</a>
+						<!--a href="javascript:void(0);" class="inscricao btn_small">Inscreva-se</a-->
+						<a href="<?php echo get_bloginfo('wpurl'); ?>/inscricao" class="btn_small">Inscreva-se</a>
 						<br class="clear" />
 						<ul>
 							<li class="modalidade"></li>
