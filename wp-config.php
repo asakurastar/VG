@@ -22,7 +22,7 @@ define('WP_CACHE', true); // Added by W3 Total Cache
 define('DB_NAME', '');
 
 /** Usuário do banco de dados MySQL */
-define('DB_USER', 'root');
+define('DB_USER', '');
 
 /** Senha do banco de dados MySQL */
 define('DB_PASSWORD', '');
